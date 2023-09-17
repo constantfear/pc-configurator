@@ -31,6 +31,30 @@ services:
       - "5432:5432"
     volumes:
       - ./db-create/create-db.sql:/docker-entrypoint-initdb.d/database-seed.sql
+      - ./dbdata:/var/lib/backup/data
+
+
+  # pgbackups:
+  #   container_name: Backup
+  #   image: prodrigestivill/postgres-backup-local
+  #   restart: always
+  #   volumes:
+  #     - ./backup:/backups
+  #   links:
+  #     - postgres
+  #   depends_on:
+  #     - postgres
+  #   environment:
+  #     - POSTGRES_HOST=postgres
+  #     - POSTGRES_DB=root
+  #     - POSTGRES_USER=root
+  #     - POSTGRES_PASSWORD=root
+  #     - POSTGRES_EXTRA_OPTS=-Z9 --schema=public --blobs
+  #     - SCHEDULE=@every 0h0m00s
+  #     - BACKUP_KEEP_DAYS=7
+  #     - BACKUP_KEEP_WEEKS=4
+  #     - BACKUP_KEEP_MONTHS=6
+  #     - HEALTHCHECK_PORT=81
 
   pgadmin:
     container_name: pgadmin4_container
@@ -43,6 +67,6 @@ services:
     ports:
       - "16543:80"
     volumes:
-      - /pgadmin-data:/var/lib/pgadmin
+      - ./pgadmin-data:/var/lib/pgadmin
     depends_on:
       - postgres

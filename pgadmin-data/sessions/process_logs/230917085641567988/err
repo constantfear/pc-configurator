@@ -1,0 +1,104 @@
+230917085641649948,pg_dump: last built-in OID is 16383
+
+230917085641654664,pg_dump: reading extensions
+
+230917085641655354,pg_dump: identifying extension members
+
+230917085641656741,pg_dump: reading schemas
+
+230917085641661767,pg_dump: reading user-defined tables
+
+230917085641710497,pg_dump: reading user-defined functions
+
+230917085641717977,pg_dump: reading user-defined types
+
+230917085641753672,pg_dump: reading procedural languages
+
+230917085641756573,pg_dump: reading user-defined aggregate functions
+
+230917085641758099,pg_dump: reading user-defined operators
+
+230917085641760535,pg_dump: reading user-defined access methods
+
+230917085641761192,pg_dump: reading user-defined operator classes
+
+230917085641762240,pg_dump: reading user-defined operator families
+
+230917085641763551,pg_dump: reading user-defined text search parsers
+
+230917085641763941,pg_dump: reading user-defined text search templates
+
+230917085641764345,pg_dump: reading user-defined text search dictionaries
+
+230917085641764947,pg_dump: reading user-defined text search configurations
+
+230917085641765542,pg_dump: reading user-defined foreign-data wrappers
+
+230917085641767015,pg_dump: reading user-defined foreign servers
+
+230917085641768000,pg_dump: reading default privileges
+
+230917085641769329,pg_dump: reading user-defined collations
+
+230917085641771792,pg_dump: reading user-defined conversions
+
+230917085641773163,pg_dump: reading type casts
+
+230917085641774438,pg_dump: reading transforms
+
+230917085641774606,pg_dump: reading table inheritance information
+
+230917085641775006,pg_dump: reading event triggers
+
+230917085641775583,pg_dump: finding extension tables
+
+230917085641776380,pg_dump: finding inheritance relationships
+
+230917085641776431,pg_dump: reading column info for interesting tables
+
+230917085641776473,pg_dump: finding the columns and types of table "public.employees"
+
+230917085641777986,pg_dump: finding default expressions of table "public.employees"
+
+230917085641778840,pg_dump: flagging inherited columns in subtables
+
+230917085641778920,pg_dump: reading partitioning data
+
+230917085641779610,pg_dump: reading indexes
+
+230917085641779673,pg_dump: reading indexes for table "public.employees"
+
+230917085641782468,pg_dump: flagging indexes in partitioned tables
+
+230917085641782556,pg_dump: reading extended statistics
+
+230917085641783286,pg_dump: reading constraints
+
+230917085641783347,pg_dump: reading triggers
+
+230917085641783379,pg_dump: reading rewrite rules
+
+230917085641784372,pg_dump: reading policies
+
+230917085641784435,pg_dump: reading row-level security policies
+
+230917085641786098,pg_dump: reading publications
+
+230917085641786623,pg_dump: reading publication membership
+
+230917085641787104,pg_dump: reading subscriptions
+
+230917085641790108,pg_dump: reading large objects
+
+230917085641791123,pg_dump: reading dependency data
+
+230917085641797941,pg_dump: saving encoding = UTF8
+
+230917085641798028,pg_dump: saving standard_conforming_strings = on
+
+230917085641798258,pg_dump: saving search_path = 
+
+230917085641798315,pg_dump: saving database definition
+
+230917085641809724,pg_dump: dumping contents of table "public.employees"
+
