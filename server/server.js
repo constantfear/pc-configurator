@@ -1,90 +1,88 @@
 const express = require("express");
-const app = express();
 const port = 8080;
+/* Creates an Express application.
+The express() function is a top-level
+function exported by the express module.
+*/
+const app = express();
+const Pool = require("pg").Pool;
 
-const pc_model = require("./pc_model");
-// Connect to our postgres database
+const pool = new Pool({
+  user: "root",
+  host: "postgres",
+  database: "root",
+  password: "root",
+  port: 5432,
+});
 
-// // Serves a folder called `public` that we will create
-// //app.use(express.static("../pc-configurator/public"));
-// //const pc_model = require("./conf_db");
+/* To handle the HTTP Methods Body Parser
+is used, Generally used to extract the
+entire body portion of an incoming
+request stream and exposes it on req.body
+*/
+const bodyParser = require("body-parser");
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: false }));
 
-app.use(express.json());
 app.use(function (req, res, next) {
-  res.setHeader("Access-Control-Allow-Origin", "http://localhost:3000");
+  res.setHeader("Access-Control-Allow-Origin", "*");
   res.setHeader("Access-Control-Allow-Methods", "GET,POST,PUT,DELETE,OPTIONS");
   res.setHeader(
     "Access-Control-Allow-Headers",
-    "Content-Type, Access-Control-Allow-Headers"
+    "Origin, X-Requested-With, Content-Type, Accept"
   );
   next();
 });
-
-app.get("/", (req, res) => {
-  pc_model
-    .getEmloyees()
-    .then((response) => {
-      res.status(200).send(response);
-    })
-    .catch((error) => {
-      res.status(500).send(error);
-    });
-});
-
-const getEmloyees = () => {
-  return new Promise(function (resolve, reject) {
-    pool.query("SELECT * FROM employees", (error, results) => {
-      if (error) {
-        reject(error);
-      }
-      resolve(results);
-    });
+pool.connect((err, client, release) => {
+  if (err) {
+    return console.error("Error acquiring client", err.stack);
+  }
+  client.query("SELECT NOW()", (err, result) => {
+    release();
+    if (err) {
+      return console.error("Error executing query", err.stack);
+    }
+    console.log("Connected to Database !");
   });
-};
-// // When a GET request is made to /employees
-// // Our app will return an array with a list of all
-// // employees including name and title
-// // this data is defined in our `database-seed.sql` file
-// // app.get("/employees", async (req, res) => {
-// //   const results = await client
-// //     .query("SELECT * FROM employees")
-// //     .then((payload) => {
-// //       return payload.rows;
-// //     })
-// //     .catch(() => {
-// //       throw new Error("Query failed");
-// //     });
-// //   res.setHeader("Content-Type", "application/json");
-// //   res.status(200);
-// //   res.send(JSON.stringify(results));
-// // });
-
-// // Our app must connect to the database before it starts, so
-// // we wrap this in an IIFE (Google it) so that we can wait
-// // asynchronously for the database connection to establish before listening
-
-// // (async () => {
-// //   await client.connect();
-
-// //   app.listen(port, () => {
-// //     console.log(`Example app listening at http://root:${port}`);
-// //   });
-// // })();
-app.listen(port, () => {
-  console.log(`App running on port ${port}.`);
 });
 
-// const myPromise = new Promise((resolve, reject) => {
-//   setTimeout(() => {
-//     resolve("foo");
-//   }, 300);
-//   reject("oops");
+// app.get("/testdata", (req, res, next) => {
+//   console.log("TEST DATA :");
+//   pool.query("Select * from test").then((testData) => {
+//     console.log(testData);
+//     res.send(testData.rows);
+//   });
 // });
 
-// myPromise.then(() => {
-//   console.log("hello");
+// app.get("/", (req, res) => {
+//   pool
+//     .getEmloyees()
+//     .then((response) => {
+//       res.status(200).send(response);
+//     })
+//     .catch((error) => {
+//       res.status(500).send(error);
+//     });
 // });
 
-module.exports = {
-  getEmloyees,
-};
+// const getEmloyees = () => {
+//   return new Promise(function (resolve, reject) {
+//     pool.query("SELECT * FROM employees", (error, results) => {
+//       if (error) {
+//         reject(error);
+//       }
+//       resolve(results);
+//     });
+//   });
+// };
+
+// Require the Routes API
+// Create a Server and run it on the port 3000
+const server = app.listen(port, function () {
+  let host = server.address().address;
+  let port = server.address().port;
+  // Starting the Server at the port 3000
+});
+// module.exports = {
+//   getEmloyees,
+// };
