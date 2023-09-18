@@ -1,26 +1,26 @@
-import React, { useState, useEffect } from "react";
-// import logo from "./Untitled.jpeg";
+import React from "react";
+//import logo from "./Untitled.jpeg";
 
 function App() {
-  const [employ, setEmployees] = useState(false);
-  useEffect(() => {
-    getEmloyees();
-  }, []);
-  function getEmloyees() {
-    fetch("http://localhost:8080")
-      .then((response) => {
-        return response.text();
-      })
-      .then((data) => {
-        setEmployees(data);
-      });
+  
+  const getEmployes = async () => {
+    try{
+      const response = await fetch("http://localhost:8080/check_db")
+      const jsonData = await response.json()
+      console.log(jsonData)
+    }
+    catch (err){
+      console.error(err.message);
+    }
   }
+
+
+    
 
   return (
     <div>
-      {employ ? employ : "There is no employ data avaible"}
-      {/* <img src={logo} alt="Logo" /> */}
-      <button onClick={getEmloyees}>Get Employees</button>
+      {/* {<img src={logo} alt="Logo" />} */}
+      {<button onClick={getEmployes}>Get All</button>}
     </div>
   );
 }
