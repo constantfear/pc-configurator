@@ -76,6 +76,19 @@ app.get("/", (req, res) => {
     });
 });
 
+
+app.get("/check_db", async (req, res) => {
+  console.log("GET");
+  try {
+    const all_data = await pool.query("SELECT * from employees");
+    res.json(all_data.rows);
+  }
+  catch (err){
+    console.error(err.message);
+  }
+});
+
+
 const getAll = () => {
   return new Promise(async function (resolve, reject) {
     await pool.query("SELECT * from employees", (error, results) => {

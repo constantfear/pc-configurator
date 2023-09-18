@@ -2,15 +2,6 @@
 version: '3.1'
 
 services:
-  backend:
-    build: ./server
-    depends_on:
-      - postgres
-    volumes:
-      - ./server:/usr/src/app/
-    ports:
-      - "8080:8080"
-
   react-app:
     build: ./pc-configurator
     ports:
@@ -32,7 +23,16 @@ services:
     volumes:
       - ./db-create/create-db.sql:/docker-entrypoint-initdb.d/database-seed.sql
       - ./dbdata:/var/lib/backup/data
-
+      
+  backend:
+    build: ./server
+    depends_on:
+      - postgres
+    volumes:
+      - /server/node_modules
+      - ./server:/server
+    ports:
+      - "8080:8080"
 
   # pgbackups:
   #   container_name: Backup
