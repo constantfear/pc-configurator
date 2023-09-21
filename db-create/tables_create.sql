@@ -1,188 +1,145 @@
+-- done
+CREATE TABLE IF NOT EXISTS Memory_type (
+    id serial PRIMARY KEY,
+    Type varchar(255) NOT NULL
+);
 
+-- done
+CREATE TABLE IF NOT EXISTS Disk_type (
+    id serial PRIMARY KEY,
+    Type varchar(255) NOT NULL
+);
 
--- IF EXISTS Configurator, RAM, Processor, Motherboard, Disk, Power unit, Videocard, Body, Cooling system 
--- THEN DROP TABLE Configurator, RAM, Processor, Motherboard, Disk, Power unit, Videocard, Body, Cooling system
--- #ЗДЕСЬ УДАЛЯЮТСЯ ТАБЛИЦЫ - МНЕНИЯ?????
--- #ты короче сам реши, как оставить
+-- done
+CREATE TABLE IF NOT EXISTS Power_unit_type (
+    id serial PRIMARY KEY,
+    Type varchar(255) NOT NULL
+);
 
+-- done
+CREATE TABLE IF NOT EXISTS Videomemory_type (
+    id serial PRIMARY KEY,
+    Videomemory_type varchar(255) NOT NULL
+);
 
+-- done
+CREATE TABLE IF NOT EXISTS Form_factor (
+    id serial PRIMARY KEY,
+    Form_factor varchar(255) NOT NULL
+);
 
+CREATE TABLE IF NOT EXISTS Chipset (
+    id serial PRIMARY KEY,
+    Chipset varchar(255) NOT NULL
+);
 
-CREATE TABLE Configuration (
-    id INT PRIMARY KEY,
-    Body INT NOT NULL,
-    Motherboard INT NOT NULL,
-    Processor INT NOT NULL,
-    Cooling_system INT NOT NULL,
-    RAM INT NOT NULL,
-    Videocard INT NOT NULL,
-    Disk INT NOT NULL,
-    Power_unit INT NOT NULL,
-    Full_price INT NOT NULL,
-    FOREIGN KEY (Body) REFERENCES Body (id),
-    FOREIGN KEY (Motherboard) REFERENCES Motherboard (id),
-    FOREIGN KEY (Processor) REFERENCES Processor (id),
-    FOREIGN KEY (Cooling_system) REFERENCES Cooling_system (id),
-    FOREIGN KEY (RAM) REFERENCES RAM (id),
-    FOREIGN KEY (Videocard) REFERENCES Videocard (id),
-    FOREIGN KEY (Disk) REFERENCES Disk (id),
-    FOREIGN KEY (Power_unit) REFERENCES Power_unit (id),
-    AUTO_INCREMENT (id)
+-- done
+CREATE TABLE IF NOT EXISTS Socket (
+    id serial PRIMARY KEY,
+    Socket varchar(255) NOT NULL
 );
 
 
 
-CREATE TABLE RAM (
-    id INT PRIMARY KEY,
-    img VARCHAR(255) NOT NULL,
-    Name VARCHAR(255) NOT NULL,
-    Type VARCHAR(255) NOT NULL,
-    Memory INT NOT NULL,
-    Frequency INT NOT NULL,
-    Price INT NOT NULL,
-    AUTO_INCREMENT (id),
-    FOREIGN KEY (Memory) REFERENCES Memory_type (id)
-)
+-- done
+CREATE TABLE IF NOT EXISTS Disk (
+    id serial PRIMARY KEY,
+    img varchar(255) NOT NULL,
+    Name varchar(255) NOT NULL,
+    Type int NOT NULL references Disk_type (id),
+    Memory varchar(255) NOT NULL,
+    Price int NOT NULL
+);
 
-CREATE TABLE Memory_type (
-    id INT PRIMARY KEY,
-    Type VARCHAR(255) NOT NULL,
-    AUTO_INCREMENT (id)
-)
+-- done
+CREATE TABLE IF NOT EXISTS RAM (
+    id serial PRIMARY KEY,
+    img varchar(255) NOT NULL,
+    Name varchar(255) NOT NULL,
+    Type int NOT NULL references Memory_type (id),
+    Memory int NOT NULL,
+    Frequency int NOT NULL,
+    Price int NOT NULL
+);
 
+-- done
+CREATE TABLE IF NOT EXISTS Power_unit (
+    id serial PRIMARY KEY,
+    img varchar(255) NOT NULL,
+    Name varchar(255) NOT NULL,
+    Type int NOT NULL references Power_unit_type (id),
+    Power int NOT NULL,
+    Price int NOT NULL
+); 
 
+-- done
+CREATE TABLE IF NOT EXISTS Videocard (
+    id serial PRIMARY KEY,
+    img varchar(255) NOT NULL,
+    Name varchar(255) NOT NULL,
+    Videomemory int NOT NULL,
+    Videomemory_type int NOT NULL references Videomemory_type (id),
+    Frequency int NOT NULL,
+    Power int NOT NULL,
+    Price int NOT NULL
+);
 
-CREATE TABLE Disk (
-    id INT PRIMARY KEY,
-    img VARCHAR(255) NOT NULL,
-    Name VARCHAR(255) NOT NULL,
-    Type INT NOT NULL,
-    Memory INT NOT NULL,
-    Price INT NOT NULL,
-    AUTO_INCREMENT (id),
-    FOREIGN KEY (Type) REFERENCES Disk_type (id)
-)
+-- done
+CREATE TABLE IF NOT EXISTS Body (
+    id serial PRIMARY KEY,
+    img varchar(255) NOT NULL,
+    Name varchar(255) NOT NULL,
+    Form_factor integer[] NOT NULL,
+    Price int NOT NULL
+);
 
-CREATE TABLE Disk_type (
-    id INT PRIMARY KEY,
-    Type VARCHAR(255) NOT NULL,
-    AUTO_INCREMENT (id)
-)
+CREATE TABLE IF NOT EXISTS Motherboard (
+    id serial PRIMARY KEY,
+    img varchar(255) NOT NULL,
+    Name varchar(255) NOT NULL,
+    Chipset int NOT NULL references Chipset (id),
+    Socket int NOT NULL references Socket (id),
+    Memory_type int NOT NULL references Memory_type (id),
+    Form_factor int NOT NULL references Form_factor (id),
+    Price int NOT NULL
+);
 
+-- done
+CREATE TABLE IF NOT EXISTS Processor (
+    id serial PRIMARY KEY,
+    img varchar(255) NOT NULL,
+    Name varchar(255) NOT NULL,
+    Core_number int NOT NULL,
+    Frequency real NOT NULL,
+    TDP int NOT NULL,
+    Threads_number int NOT NULL,
+    Socket int NOT NULL references Socket (id),
+    Price int NOT NULL
+);
 
-
-CREATE TABLE Power_unit (
-    id INT PRIMARY KEY,
-    img VARCHAR(255) NOT NULL,
-    Name VARCHAR(255) NOT NULL,
-    Type INT NOT NULL,
-    Power INT NOT NULL,
-    Price INT NOT NULL,
-    AUTO_INCREMENT (id),
-    FOREIGN KEY (Type) REFERENCES Power_unit_type (id)
-) 
-
-CREATE TABLE Power_unit_type (
-    id INT PRIMARY KEY,
-    Type VARCHAR(255) NOT NULL,
-    AUTO_INCREMENT (id)
-)
-
-
-
-CREATE TABLE Videocard (
-    id INT PRIMARY KEY,
-    img VARCHAR(255) NOT NULL,
-    Name VARCHAR(255) NOT NULL,
-    Videomemory INT NOT NULL,
-    Videomemory type INT NOT NULL,
-    Frequency INT NOT NULL,
-    Power INT NOT NULL,
-    Price INT NOT NULL,
-    AUTO_INCREMENT (id),
-    FOREIGN KEY (Videomemory_type) REFERENCES Videomemory_type (id)
-)
-
-CREATE TABLE Videomemory_type (
-    id INT PRIMARY KEY,
-    Videomemory_type VARCHAR(255) NOT NULL,
-    AUTO_INCREMENT (id)
-)
-
-
-
-CREATE TABLE Body (
-    id INT PRIMARY KEY,
-    img VARCHAR(255) NOT NULL,
-    Name VARCHAR(255) NOT NULL,
-    Form_factor INT NOT NULL,
-    Price INT NOT NULL,
-    AUTO_INCREMENT (id),
-    FOREIGN KEY (Form_factor) REFERENCES Form_factor (id)
-)
-
-CREATE TABLE Form_factor (
-    id INT PRIMARY KEY,
-    Form_factor VARCHAR(255) NOT NULL,
-    AUTO_INCREMENT (id)
-)
+-- done
+CREATE TABLE IF NOT EXISTS Cooling_system (
+    id serial PRIMARY KEY,
+    img varchar(255) NOT NULL,
+    Name varchar(255) NOT NULL,
+    Type varchar(255) NOT NULL,
+    Max_TDP int NOT NULL,
+    Sockets integer[] NOT NULL,
+    Price int NOT NULL
+);
 
 
-
-CREATE TABLE Motherboard (
-    id INT PRIMARY KEY,
-    img VARCHAR(255) NOT NULL,
-    Name VARCHAR(255) NOT NULL,
-    Chipset INT NOT NULL,
-    Socket INT NOT NULL,
-    Memory_type INT NOT NULL,
-    Form_factor INT NOT NULL,
-    Price INT NOT NULL,
-    AUTO_INCREMENT (id),
-    FOREIGN KEY (Chipset) REFERENCES Chipset (id),
-    FOREIGN KEY (Socket) REFERENCES Socket (id),
-    FOREIGN KEY (Form_factor) REFERENCES Form_factor (id),
-    FOREIGN KEY (Memory_type) REFERENCES Memory_type (id)
-)
-
-CREATE TABLE Chipset (
-    id INT PRIMARY KEY,
-    Chipset VARCHAR(255) NOT NULL,
-    AUTO_INCREMENT (id)
-)
-
-
-
-CREATE TABLE Processor (
-    id INT PRIMARY KEY,
-    img VARCHAR(255) NOT NULL,
-    Name VARCHAR(255) NOT NULL,
-    Core_number INT NOT NULL,
-    Frequency INT NOT NULL,
-    TDP INT NOT NULL,
-    Threads_number INT NOT NULL,
-    Socket INT NOT NULL,
-    Price INT NOT NULL,
-    AUTO_INCREMENT (id),
-    FOREIGN KEY (Socket) REFERENCES Socket (id)
-)
-
-
-
-CREATE TABLE Cooling system (
-    id INT PRIMARY KEY,
-    img VARCHAR(255) NOT NULL,
-    Name VARCHAR(255) NOT NULL,
-    Type VARCHAR(255) NOT NULL,
-    Max_TDP INT NOT NULL,
-    Socket INT NOT NULL,
-    Price INT NOT NULL,
-    AUTO_INCREMENT (id),
-    FOREIGN KEY (Socket) REFERENCES Socket (id)
-)
-
-CREATE TABLE Socket (
-    id INT PRIMARY KEY,
-    Socket VARCHAR(255) NOT NULL,
-    AUTO_INCREMENT (id)
-)
+CREATE TABLE IF NOT EXISTS Configuration (
+    id serial PRIMARY KEY,
+    Name varchar(255) NOT NULL,
+    Description varchar(255) NOT NULL,
+    Body int NOT NULL references Body (id),
+    Motherboard int NOT NULL references Motherboard (id),
+    Processor int NOT NULL references Processor (id),
+    Cooling_system int NOT NULL references Cooling_system (id),
+    RAM int NOT NULL references RAM (id),
+    Videocard int NOT NULL references Videocard (id),
+    Disk int NOT NULL references Disk (id),
+    Power_unit int NOT NULL references Power_unit (id),
+    Full_price int NOT NULL
+);
