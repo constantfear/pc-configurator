@@ -21,8 +21,9 @@ services:
     ports:
       - "5432:5432"
     volumes:
-      - ./db-create/create-db.sql:/docker-entrypoint-initdb.d/database-seed.sql
-      - ./dbdata:/var/lib/backup/data
+      - ./db-create/tables_create.sql:/docker-entrypoint-initdb.d/database-seed.sql
+      # - ./dbdata:/var/lib/backup/data
+      - ./db:/var/lib/postgresql/data
       
   backend:
     build: ./server
@@ -70,3 +71,8 @@ services:
       - ./pgadmin-data:/var/lib/pgadmin
     depends_on:
       - postgres
+
+# volumes:
+#   db:
+#     driver: local
+# docker run postgres:14.1-alpine -p 5432:5432 -e POSTGRES_USER=root -e POSTGRES_PASSWORD=root -e POSTGRES_DB=root -d -v "$(pwd)/db":/var/lib/postgresql/data

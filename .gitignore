@@ -1,2 +1,3 @@
 .python-env
+/db
 /node_modules
