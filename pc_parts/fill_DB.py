@@ -23,7 +23,6 @@ def apply_filter(filter:dict, s: str) -> list[int]:
         mas.append(filter[c.strip()])
     return mas
 
-
 def insert_Cases():
     with pd.ExcelFile(r"Cases.xls") as wb:
         # Filling Form Factors
@@ -41,7 +40,9 @@ def insert_Cases():
             filter = create_dict(curs.fetchall())
             try:
                 for value in wb.parse(0).values:
-                    curs.execute(f"INSERT INTO Body (img, Name, Form_factor, Price) VALUES ('{value[0]}', '{value[1]}', ARRAY{apply_filter(filter, value[2])}, {value[3]})")
+                    curs.execute(f"INSERT INTO Body (img, Name, Price) VALUES ('{value[0]}', '{value[1]}', {value[3]})")
+                    for socket in apply_filter(filter,value[2]):
+                        curs.execute(f"INSERT INTO Body_form_factors (body_id, form_factor_id) VALUES ((SELECT MAX(Id) FROM Body), {socket})")
                 print('Finish INSERT into Body')
             except Exception as ex:
                 print(ex)
@@ -56,7 +57,6 @@ def insert_Cooling_system():
             l+=value.replace('\xa0', ' ').replace(',', ' ')+' '
         unique_list = set([v.strip() for v in l.split(' ')])
         unique_list.remove('')
-        print(unique_list)
         with conn.cursor() as curs:
             try:
                 for value in unique_list:
@@ -72,7 +72,9 @@ def insert_Cooling_system():
             filter = create_dict(curs.fetchall())
             try:
                 for value in wb.parse(0).values:
-                    curs.execute(f"INSERT INTO Cooling_system (img, Name, Type, Max_TDP, Sockets, Price) VALUES ('{value[0]}', '{value[1]}', '{value[2]}', {value[3]}, ARRAY{apply_filter(filter, value[4])}, {value[5]})")
+                    curs.execute(f"INSERT INTO Cooling_system (img, Name, Type, Max_TDP, Price) VALUES ('{value[0]}', '{value[1]}', '{value[2]}', {value[3]}, {value[5]})")
+                    for form_factor in apply_filter(filter,value[4]):
+                        curs.execute(f"INSERT INTO Cooling_systems_sockets (cooling_system_id, socket_id) VALUES ((SELECT MAX(Id) FROM Cooling_system), {form_factor})")
                 print('Finish INSERT into Cooling_system')
             except Exception as ex:
                 print(ex)

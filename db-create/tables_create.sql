@@ -1,28 +1,23 @@
--- done
 CREATE TABLE IF NOT EXISTS Memory_type (
     id serial PRIMARY KEY,
     Type varchar(255) NOT NULL
 );
 
--- done
 CREATE TABLE IF NOT EXISTS Disk_type (
     id serial PRIMARY KEY,
     Type varchar(255) NOT NULL
 );
 
--- done
 CREATE TABLE IF NOT EXISTS Power_unit_type (
     id serial PRIMARY KEY,
     Type varchar(255) NOT NULL
 );
 
--- done
 CREATE TABLE IF NOT EXISTS Videomemory_type (
     id serial PRIMARY KEY,
     Videomemory_type varchar(255) NOT NULL
 );
 
--- done
 CREATE TABLE IF NOT EXISTS Form_factor (
     id serial PRIMARY KEY,
     Form_factor varchar(255) NOT NULL
@@ -33,25 +28,21 @@ CREATE TABLE IF NOT EXISTS Chipset (
     Chipset varchar(255) NOT NULL
 );
 
--- done
 CREATE TABLE IF NOT EXISTS Socket (
     id serial PRIMARY KEY,
     Socket varchar(255) NOT NULL
 );
 
 
-
--- done
 CREATE TABLE IF NOT EXISTS Disk (
     id serial PRIMARY KEY,
     img varchar(255) NOT NULL,
     Name varchar(255) NOT NULL,
     Type int NOT NULL references Disk_type (id),
-    Memory varchar(255) NOT NULL,
+    Memory int NOT NULL,
     Price int NOT NULL
 );
 
--- done
 CREATE TABLE IF NOT EXISTS RAM (
     id serial PRIMARY KEY,
     img varchar(255) NOT NULL,
@@ -62,7 +53,6 @@ CREATE TABLE IF NOT EXISTS RAM (
     Price int NOT NULL
 );
 
--- done
 CREATE TABLE IF NOT EXISTS Power_unit (
     id serial PRIMARY KEY,
     img varchar(255) NOT NULL,
@@ -72,7 +62,6 @@ CREATE TABLE IF NOT EXISTS Power_unit (
     Price int NOT NULL
 ); 
 
--- done
 CREATE TABLE IF NOT EXISTS Videocard (
     id serial PRIMARY KEY,
     img varchar(255) NOT NULL,
@@ -84,12 +73,10 @@ CREATE TABLE IF NOT EXISTS Videocard (
     Price int NOT NULL
 );
 
--- done
 CREATE TABLE IF NOT EXISTS Body (
     id serial PRIMARY KEY,
     img varchar(255) NOT NULL,
     Name varchar(255) NOT NULL,
-    Form_factor integer[] NOT NULL,
     Price int NOT NULL
 );
 
@@ -104,27 +91,24 @@ CREATE TABLE IF NOT EXISTS Motherboard (
     Price int NOT NULL
 );
 
--- done
 CREATE TABLE IF NOT EXISTS Processor (
     id serial PRIMARY KEY,
     img varchar(255) NOT NULL,
     Name varchar(255) NOT NULL,
     Core_number int NOT NULL,
-    Frequency real NOT NULL,
+    Frequency int NOT NULL,
     TDP int NOT NULL,
     Threads_number int NOT NULL,
     Socket int NOT NULL references Socket (id),
     Price int NOT NULL
 );
 
--- done
 CREATE TABLE IF NOT EXISTS Cooling_system (
     id serial PRIMARY KEY,
     img varchar(255) NOT NULL,
     Name varchar(255) NOT NULL,
     Type varchar(255) NOT NULL,
     Max_TDP int NOT NULL,
-    Sockets integer[] NOT NULL,
     Price int NOT NULL
 );
 
@@ -132,7 +116,6 @@ CREATE TABLE IF NOT EXISTS Cooling_system (
 CREATE TABLE IF NOT EXISTS Configuration (
     id serial PRIMARY KEY,
     Name varchar(255) NOT NULL,
-    Description varchar(255) NOT NULL,
     Body int NOT NULL references Body (id),
     Motherboard int NOT NULL references Motherboard (id),
     Processor int NOT NULL references Processor (id),
@@ -143,3 +126,15 @@ CREATE TABLE IF NOT EXISTS Configuration (
     Power_unit int NOT NULL references Power_unit (id),
     Full_price int NOT NULL
 );
+
+CREATE TABLE IF NOT EXISTS Cooling_systems_sockets (
+    id serial PRIMARY KEY,
+    cooling_system_id int NOT NULL references Cooling_system (id),
+    socket_id int NOT NULL references Socket (id)
+);
+
+CREATE TABLE IF NOT EXISTS Body_form_factors (
+    id serial PRIMARY KEY,
+    body_id int NOT NULL references Body (id),
+    form_factor_id int NOT NULL references Form_factor (id)
+)
