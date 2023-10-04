@@ -14,13 +14,10 @@ function App() {
     }
   }
 
-
-    
-
   return (
     <div>
       {/* {<img src={logo} alt="Logo" />} */}
-      {<button onClick={getEmployes}>Get All</button>}
+      {<button onClick={getEmployes}>Get Data</button>}
     </div>
   );
 }

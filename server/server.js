@@ -80,7 +80,7 @@ app.get("/", (req, res) => {
 app.get("/check_db", async (req, res) => {
   console.log("GET");
   try {
-    const all_data = await pool.query("SELECT * from employees");
+    const all_data = await pool.query("SELECT * from body");
     res.json(all_data.rows);
   }
   catch (err){
