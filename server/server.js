@@ -76,6 +76,11 @@ app.get("/", (req, res) => {
     });
 });
 
+app.post("/get_json",(req,res) =>{
+  console.log(req.body)
+})
+
+
 
 app.get("/check_db", async (req, res) => {
   console.log("GET");

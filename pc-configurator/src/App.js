@@ -13,11 +13,20 @@ function App() {
       console.error(err.message);
     }
   }
-
+  const putJson = async()=>{
+    fetch(
+      'http://localhost:8080/get_json',
+      {
+        method: 'POST',
+        body: JSON.stringify({ myData: 123 })
+      }
+    )
+  }
   return (
     <div>
       {/* {<img src={logo} alt="Logo" />} */}
       {<button onClick={getEmployes}>Get Data</button>}
+      {<button onClick={putJson}>Send Json</button>}
     </div>
   );
 }
