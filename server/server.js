@@ -26,6 +26,7 @@ const app = express();
 app.use(cors());
 
 const bodyParser = require("body-parser");
+const { Query } = require("pg");
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 
@@ -38,9 +39,6 @@ app.use(function (req, res, next) {
     "Access-Control-Allow-Headers",
     "Origin, X-Requested-With, Content-Type, Accept"
   );
-  // res.setHeader(
-  //   "Content-Security-Policy: default-src 'self'; img-src https://images.example.com 'self';"
-  // );
   next();
 });
 
@@ -57,13 +55,7 @@ pool.connect((err, client, release) => {
   });
 });
 
-// app.get("", async (req, res) => {
-//   try {
-//     console.log(await pool.query("SELECT * from employees"));
-//   } catch (err) {
-//     console.error(err.message);
-//   }
-// });
+
 app.get("/", (req, res) => {
   console.log("GET");
 
@@ -76,77 +68,306 @@ app.get("/", (req, res) => {
     });
 });
 
-app.post("/get_json",(req,res) =>{
-  console.log(req.body)
-})
 
-
-
-app.get("/check_db", async (req, res) => {
-  console.log("GET");
+app.post("/cpu", async (req,res) =>{
+  data=req.body
+  console.log(data)
+  category_filters=["Core_number", "Threads_number", "Socket"]
+  num_filters=["Frequency", "TDP", "Price"]
   try {
-    const all_data = await pool.query("SELECT * from body");
+    query = "SELECT * from Processor WHERE 1=1"
+    for (var f in data){
+      if(data[f]){
+        if(num_filters.includes(f)){
+          query=query+' AND '+f+'>'+data[f][0]+' AND '+f+'<'+data[f][1]
+        }
+        if(category_filters.includes(f)){
+          query=query+' AND ('+f+'='+data[f][0]
+          if(data[f].length>1){
+            for(i=1;i<data[f].length;i++){
+                query=query+' OR '+f+'='+data[f][i]
+            }
+          }
+          query=query+')'
+         
+        }
+      }
+      console.log(query)
+    } 
+    
+    const all_data = await pool.query(query);
+
     res.json(all_data.rows);
   }
   catch (err){
     console.error(err.message);
   }
-});
+  console.log(data)
+  
+})
 
-
-const getAll = () => {
-  return new Promise(async function (resolve, reject) {
-    await pool.query("SELECT * from employees", (error, results) => {
-      console.log("GETALL");
-      if (error) {
-        reject(error);
+app.post("/motherboard", async (req,res) =>{
+  data=req.body
+  console.log(data)
+  category_filters=["Chipset","Socket","Memory_type","Form_factor"]
+  num_filters=["Price"]
+  try {
+    query = "SELECT * from Motherboard WHERE 1=1"
+    for (var f in data){
+      if(data[f]){
+        if(num_filters.includes(f)){
+          query=query+' AND '+f+'>'+data[f][0]+' AND '+f+'<'+data[f][1]
+        }
+        if(category_filters.includes(f)){
+          query=query+' AND ('+f+'='+data[f][0]
+          if(data[f].length>1){
+            for(i=1;i<data[f].length;i++){
+                query=query+' OR '+f+'='+data[f][i]
+            }
+          }
+          query=query+')'
+         
+        }
       }
-      resolve(results);
-    });
-  });
-};
+      console.log(query)
+    } 
+    
+    const all_data = await pool.query(query);
 
-// app.get("/testdata", (req, res, next) => {
-//   console.log("TEST DATA :");
-//   pool.query("Select * from test").then((testData) => {
-//     console.log(testData);
-//     res.send(testData.rows);
-//   });
-// });
+    res.json(all_data.rows);
+  }
+  catch (err){
+    console.error(err.message);
+  }
+  console.log(data)
+  
+})
 
-// app.get("/", (req, res) => {
-//   pool
-//     .getEmloyees()
-//     .then((response) => {
-//       res.status(200).send(response);
-//     })
-//     .catch((error) => {
-//       res.status(500).send(error);
-//     });
-// });
+app.post("/body", async (req,res) =>{
+  data=req.body
+  console.log(data)
+  category_filters=[]
+  num_filters=["Price"]
+  try {
+    query = "SELECT * from Body WHERE 1=1"
+    for (var f in data){
+      if(data[f]){
+        if(num_filters.includes(f)){
+          query=query+' AND '+f+'>'+data[f][0]+' AND '+f+'<'+data[f][1]
+        }
+        if(category_filters.includes(f)){
+          query=query+' AND ('+f+'='+data[f][0]
+          if(data[f].length>1){
+            for(i=1;i<data[f].length;i++){
+                query=query+' OR '+f+'='+data[f][i]
+            }
+          }
+          query=query+')'
+         
+        }
+      }
+      console.log(query)
+    } 
+    
+    const all_data = await pool.query(query);
 
-// const getEmloyees = () => {
-//   return new Promise(function (resolve, reject) {
-//     pool.query("SELECT * FROM employees", (error, results) => {
-//       if (error) {
-//         reject(error);
-//       }
-//       resolve(results);
-//     });
-//   });
-// };
+    res.json(all_data.rows);
+  }
+  catch (err){
+    console.error(err.message);
+  }
+  console.log(data)
+  
+})
 
-// Require the Routes API
-// Create a Server and run it on the port 3000
-// const server = app.listen(port, function () {
-//   let host = server.address().address;
-//   let port = server.address().port;
-//   // Starting the Server at the port 3000
-// });
+app.post("/cooling_system", async (req,res) =>{
+  data=req.body
+  console.log(data)
+  category_filters=["Type"]
+  num_filters=["Price","Max_TDP"]
+  try {
+    query = "SELECT * from Cooling_system WHERE 1=1"
+    for (var f in data){
+      if(data[f]){
+        if(num_filters.includes(f)){
+          query=query+' AND '+f+'>'+data[f][0]+' AND '+f+'<'+data[f][1]
+        }
+        if(category_filters.includes(f)){
+          query=query+' AND ('+f+'='+data[f][0]
+          if(data[f].length>1){
+            for(i=1;i<data[f].length;i++){
+                query=query+' OR '+f+'='+data[f][i]
+            }
+          }
+          query=query+')'
+         
+        }
+      }
+      console.log(query)
+    } 
+    
+    const all_data = await pool.query(query);
+
+    res.json(all_data.rows);
+  }
+  catch (err){
+    console.error(err.message);
+  }
+  console.log(data)
+  
+})
+
+app.post("/hard_drive", async (req,res) =>{
+  data=req.body
+  console.log(data)
+  category_filters=["Type"]
+  num_filters=["Price","Memory"]
+  try {
+    query = "SELECT * from Disk WHERE 1=1"
+    for (var f in data){
+      if(data[f]){
+        if(num_filters.includes(f)){
+          query=query+' AND '+f+'>'+data[f][0]+' AND '+f+'<'+data[f][1]
+        }
+        if(category_filters.includes(f)){
+          query=query+' AND ('+f+'='+data[f][0]
+          if(data[f].length>1){
+            for(i=1;i<data[f].length;i++){
+                query=query+' OR '+f+'='+data[f][i]
+            }
+          }
+          query=query+')'
+         
+        }
+      }
+      console.log(query)
+    } 
+    
+    const all_data = await pool.query(query);
+
+    res.json(all_data.rows);
+  }
+  catch (err){
+    console.error(err.message);
+  }
+  console.log(data)
+  
+})
+
+app.post("/ram", async (req,res) =>{
+  data=req.body
+  console.log(data)
+  category_filters=["Type"]
+  num_filters=["Price","Memory","Frequency"]
+  try {
+    query = "SELECT * from RAM WHERE 1=1"
+    for (var f in data){
+      if(data[f]){
+        if(num_filters.includes(f)){
+          query=query+' AND '+f+'>'+data[f][0]+' AND '+f+'<'+data[f][1]
+        }
+        if(category_filters.includes(f)){
+          query=query+' AND ('+f+'='+data[f][0]
+          if(data[f].length>1){
+            for(i=1;i<data[f].length;i++){
+                query=query+' OR '+f+'='+data[f][i]
+            }
+          }
+          query=query+')'
+         
+        }
+      }
+      console.log(query)
+    } 
+    
+    const all_data = await pool.query(query);
+
+    res.json(all_data.rows);
+  }
+  catch (err){
+    console.error(err.message);
+  }
+  console.log(data)
+  
+})
+
+app.post("/power_unit", async (req,res) =>{
+  data=req.body
+  console.log(data)
+  category_filters=["Type"]
+  num_filters=["Price","Power"]
+  try {
+    query = "SELECT * from Power_unit WHERE 1=1"
+    for (var f in data){
+      if(data[f]){
+        if(num_filters.includes(f)){
+          query=query+' AND '+f+'>'+data[f][0]+' AND '+f+'<'+data[f][1]
+        }
+        if(category_filters.includes(f)){
+          query=query+' AND ('+f+'='+data[f][0]
+          if(data[f].length>1){
+            for(i=1;i<data[f].length;i++){
+                query=query+' OR '+f+'='+data[f][i]
+            }
+          }
+          query=query+')'
+         
+        }
+      }
+      console.log(query)
+    } 
+    
+    const all_data = await pool.query(query);
+
+    res.json(all_data.rows);
+  }
+  catch (err){
+    console.error(err.message);
+  }
+  console.log(data)
+  
+})
+
+app.post("/videocard", async (req,res) =>{
+  data=req.body
+  console.log(data)
+  category_filters=["Videomemory_type"]
+  num_filters=["Price","Videomemory","Frequency","Power"]
+  try {
+    query = "SELECT * from Videocard WHERE 1=1"
+    for (var f in data){
+      if(data[f]){
+        if(num_filters.includes(f)){
+          query=query+' AND '+f+'>'+data[f][0]+' AND '+f+'<'+data[f][1]
+        }
+        if(category_filters.includes(f)){
+          query=query+' AND ('+f+'='+data[f][0]
+          if(data[f].length>1){
+            for(i=1;i<data[f].length;i++){
+                query=query+' OR '+f+'='+data[f][i]
+            }
+          }
+          query=query+')'
+         
+        }
+      }
+      console.log(query)
+    } 
+    
+    const all_data = await pool.query(query);
+
+    res.json(all_data.rows);
+  }
+  catch (err){
+    console.error(err.message);
+  }
+  console.log(data)
+  
+})
+
+
 app.listen(8080, () => {
   console.log("Server start");
 });
 
-module.exports = {
-  getAll,
-};
+
