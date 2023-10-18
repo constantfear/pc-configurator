@@ -213,6 +213,7 @@ function App() {
           "Content-Type":'application/json'
         },
         body: JSON.stringify({
+          "Name":'4yrka',
           "Component" : ["Videocard","Power_unit"],//тип компонента
           "ID":["1","2"] //ID компонента соответстующие типу
         })
@@ -277,6 +278,7 @@ function App() {
         },
         body: JSON.stringify({
           "ConfigID":"1",
+          "Name":''
         })
         // body: JSON.stringify({ "myData": "123" })
         // "Core_number": [2,4],

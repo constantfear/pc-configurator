@@ -396,9 +396,9 @@ app.post("/select_product", async (req, res) => {//получить назван
   
 });
 
-app.post("/set_component", async (req, res) => {//сохранение конфига
+app.post("/set_component", async (req, res) => {//сохранение конфига куда имя хуярить хз
+  
   data=req.body
-  const all_data=[]
   try{
     for(i=0;i<data["ID"].length;i++){
       query="SELECT * from "
