@@ -330,7 +330,6 @@ app.post("/power_unit", async (req,res) =>{
 
 app.post("/videocard", async (req,res) =>{
   data=req.body
-  console.log(data)
   category_filters=["Videomemory_type"]
   num_filters=["Price","Videomemory","Frequency","Power"]
   try {
@@ -354,6 +353,127 @@ app.post("/videocard", async (req,res) =>{
       console.log(query)
     } 
     
+    const all_data = await pool.query(query);
+
+    res.json(all_data.rows);
+  }
+  catch (err){
+    console.error(err.message);
+  }
+  console.log(data)
+  
+})
+
+app.post("/count", async (req, res) => {//получить количество товаров
+  data=req.body
+  try {
+
+    query = "SELECT * from "+data["Component"] //запрос
+    const all_data = await pool.query(query);
+
+    res.json(all_data.rows);
+  }
+  catch (err){
+    console.error(err.message);
+  }
+  console.log(data)
+  
+});
+
+app.post("/select_product", async (req, res) => {//получить название картинку и цену если выбран товар
+  data=req.body
+  try {
+
+    query = "SELECT * from "+data["Component"]+" WHERE 1=1 AND ID="+data['ID']//запрос
+    const all_data = await pool.query(query);
+
+    res.json(all_data.rows);
+  }
+  catch (err){
+    console.error(err.message);
+  }
+  console.log(data)
+  
+});
+
+app.post("/set_component", async (req, res) => {//сохранение конфига
+  data=req.body
+  const all_data=[]
+  try{
+    for(i=0;i<data["ID"].length;i++){
+      query="SELECT * from "
+      query=query+data['Component'][i]+" WHERE 1=1 AND ID="+data['ID'][i]
+      console.log(query)
+      await pool.query(query);
+    }
+    
+  }
+  catch (err){
+    console.error(err.message);
+  }
+  console.log(data)
+  
+});
+
+app.post("/max_in_filter", async (req,res) =>{ //получение максимума для численных фильтров
+  data=req.body
+  console.log(data)
+  try {
+    query = "SELECT * from "+data["Component"]+" WHERE 1=1"
+    for (i=1;i<[data].length;i++){
+      if(data[data[i]]){
+        query=query+' AND '+data[i]+'>'+data[data[i]][0]+' AND '+data[i]+'<'+data[data[i]][1] //тут надо как то изменить для макс
+      }
+      console.log(query)
+    } 
+    
+    const all_data = await pool.query(query);
+
+    res.json(all_data.rows);
+  }
+  catch (err){
+    console.error(err.message);
+  }
+  console.log(data)
+  
+})
+
+
+
+app.post("/category_filters", async (req,res) =>{//получение количества компонентов для категориальных фильтров
+  data=req.body
+  try {
+    query = "SELECT * from "+data["Component"]+" WHERE 1=1"
+    for (var f in data){
+      if((data[f])&&(f!="Component")){
+        query=query+' AND ('+f+'='+data[f][0]
+          if(data[f].length>1){
+            for(i=1;i<data[f].length;i++){
+                query=query+' OR '+f+'='+data[f][i]
+            }
+          }
+          query=query+')'
+      }
+      
+    } 
+    console.log(query)
+    const all_data = await pool.query(query);
+
+    res.json(all_data.rows);
+  }
+  catch (err){
+    console.error(err.message);
+  }
+  console.log(data)
+  
+})
+
+app.post("/update_name", async (req,res) =>{ //изменение имени сборки
+  data=req.body
+  console.log(data)
+  query = "SELECT * from "+"Таблица с конфигурациями"+" WHERE 1=1"
+  try{
+    query=query+"ConfigID="+data["ConfigID"]
     const all_data = await pool.query(query);
 
     res.json(all_data.rows);

@@ -161,6 +161,133 @@ function App() {
     
   }
   
+  async function getCount() { 
+    const response = await fetch(
+      'http://localhost:8080/count',
+      {
+        method: 'POST',
+        headers:{
+          "Content-Type":'application/json'
+        },
+        body: JSON.stringify({
+          "Component" : "Videocard"
+        })
+        // body: JSON.stringify({ "myData": "123" })
+        // "Core_number": [2,4],
+          // "TDP": ""
+      }
+    )
+    const jsonData = await response.json()
+    console.log(jsonData)
+    
+  }
+
+  async function getProduct() {
+    const response = await fetch(
+      'http://localhost:8080/select_product',
+      {
+        method: 'POST',
+        headers:{
+          "Content-Type":'application/json'
+        },
+        body: JSON.stringify({
+          "Component" : "Videocard",
+          "ID":"2"
+        })
+        // body: JSON.stringify({ "myData": "123" })
+        // "Core_number": [2,4],
+          // "TDP": ""
+      }
+    )
+    const jsonData = await response.json()
+    console.log(jsonData)
+    
+  }
+
+  async function setConfig() {
+    const response = await fetch(
+      'http://localhost:8080/set_component',
+      {
+        method: 'POST',
+        headers:{
+          "Content-Type":'application/json'
+        },
+        body: JSON.stringify({
+          "Component" : ["Videocard","Power_unit"],//тип компонента
+          "ID":["1","2"] //ID компонента соответстующие типу
+        })
+      }
+    )
+    const jsonData = await response.json()
+    console.log(jsonData)
+    
+  }
+
+  async function getMaxInFilter() {
+    const response = await fetch(
+      'http://localhost:8080/max_in_filter',
+      {
+        method: 'POST',
+        headers:{
+          "Content-Type":'application/json'
+        },
+        body: JSON.stringify({
+          "Component":"Videocard",
+          "Price": [10000,30000]
+        })
+        // body: JSON.stringify({ "myData": "123" })
+        // "Core_number": [2,4],
+          // "TDP": ""
+      }
+    )
+    const jsonData = await response.json()
+    console.log(jsonData)
+    
+  }
+
+  async function getCountComponentsInCategory() {
+    const response = await fetch(
+      'http://localhost:8080/category_filters',
+      {
+        method: 'POST',
+        headers:{
+          "Content-Type":'application/json'
+        },
+        body: JSON.stringify({
+          "Component":"Processor",
+          "Core_number":[4]
+        })
+        // body: JSON.stringify({ "myData": "123" })
+        // "Core_number": [2,4],
+          // "TDP": ""
+      }
+    )
+    const jsonData = await response.json()
+    console.log(jsonData)
+    
+  }
+
+  async function UpdateName() {
+    const response = await fetch(
+      'http://localhost:8080/update_name',
+      {
+        method: 'POST',
+        headers:{
+          "Content-Type":'application/json'
+        },
+        body: JSON.stringify({
+          "ConfigID":"1",
+        })
+        // body: JSON.stringify({ "myData": "123" })
+        // "Core_number": [2,4],
+          // "TDP": ""
+      }
+    )
+    const jsonData = await response.json()
+    console.log(jsonData)
+    
+  }
+
   return (
     <div>
       {<button onClick={getCpu}>Get CPU</button>}
@@ -171,6 +298,12 @@ function App() {
       {<button onClick={getRAM}>Get RAM</button>}
       {<button onClick={getPowerUnit}>Get Power Unit</button>}
       {<button onClick={getVideocard}>Get Videocard</button>}
+      {<button onClick={getCount}>Get Count</button>}
+      {<button onClick={getProduct}>Get Product</button>}
+      {<button onClick={setConfig}>Set Config</button>}
+      {<button onClick={getMaxInFilter}>Get Max in Filter</button>}
+      {<button onClick={getCountComponentsInCategory}>Get Count in Category</button>}
+      {<button onClick={UpdateName}>Get Count in Category</button>}
     </div>
   );
 }
