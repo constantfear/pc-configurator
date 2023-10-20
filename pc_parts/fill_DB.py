@@ -72,7 +72,7 @@ def insert_Cooling_system():
             filter = create_dict(curs.fetchall())
             try:
                 for value in wb.parse(0).values:
-                    curs.execute(f"INSERT INTO Cooling_system (img, Name, Type, Max_TDP, Price) VALUES ('{value[0]}', '{value[1]}', '{value[2]}', {value[3]}, {value[5]})")
+                    curs.execute(f"INSERT INTO Cooling_system (img, Name, Cooling_system_type, Max_TDP, Price) VALUES ('{value[0]}', '{value[1]}', '{value[2]}', {value[3]}, {value[5]})")
                     for form_factor in apply_filter(filter,value[4]):
                         curs.execute(f"INSERT INTO Cooling_systems_sockets (cooling_system_id, socket_id) VALUES ((SELECT MAX(Id) FROM Cooling_system), {form_factor})")
                 print('Finish INSERT into Cooling_system')
@@ -99,8 +99,8 @@ def insert_Disks():
         # Filling Form Factors
         with conn.cursor() as curs:
             try:
-                curs.execute(f"INSERT INTO Disk_type (Type) VALUES ('SSD')")
-                curs.execute(f"INSERT INTO Disk_type (Type) VALUES ('HDD')")
+                curs.execute(f"INSERT INTO Disk_type (Disk_type) VALUES ('SSD')")
+                curs.execute(f"INSERT INTO Disk_type (Disk_type) VALUES ('HDD')")
                 print('Finish INSERT into Disk type')
             except Exception as ex:
                 print(ex)
@@ -109,7 +109,7 @@ def insert_Disks():
         with conn.cursor() as curs:
             try:
                 for value in wb.parse(0).values:
-                    curs.execute(f"INSERT INTO Disk (img, Name, Type, Memory, Price) VALUES ('{value[0]}', '{value[1]}', {value[2]}, {value[3]}, {value[4]})")
+                    curs.execute(f"INSERT INTO Disk (img, Name, Disk_type, Memory, Price) VALUES ('{value[0]}', '{value[1]}', {value[2]}, {value[3]}, {value[4]})")
                 print('Finish INSERT Disk')
             except Exception as ex:
                 print(ex)
@@ -120,10 +120,10 @@ def insert_RAM():
         # Filling Form Factors
         with conn.cursor() as curs:
             try:
-                curs.execute(f"INSERT INTO Memory_type (Type) VALUES ('DDR2')")
-                curs.execute(f"INSERT INTO Memory_type (Type) VALUES ('DDR3')")
-                curs.execute(f"INSERT INTO Memory_type (Type) VALUES ('DDR4')")
-                curs.execute(f"INSERT INTO Memory_type (Type) VALUES ('DDR5')")
+                curs.execute(f"INSERT INTO Memory_type (Memory_type) VALUES ('DDR2')")
+                curs.execute(f"INSERT INTO Memory_type (Memory_type) VALUES ('DDR3')")
+                curs.execute(f"INSERT INTO Memory_type (Memory_type) VALUES ('DDR4')")
+                curs.execute(f"INSERT INTO Memory_type (Memory_type) VALUES ('DDR5')")
                 print('Finish INSERT into Memory type')
             except Exception as ex:
                 print(ex)
@@ -134,7 +134,7 @@ def insert_RAM():
             filter = create_dict(curs.fetchall())
             try:
                 for value in wb.parse(0).values:
-                    curs.execute(f"INSERT INTO RAM (img, Name, Type, Memory, Frequency, Price) VALUES ('{value[0]}', '{value[1]}', {filter[value[2]]}, {value[3]}, {value[4]}, {value[5]})")
+                    curs.execute(f"INSERT INTO RAM (img, Name, Memory_type, Memory, Frequency, Price) VALUES ('{value[0]}', '{value[1]}', {filter[value[2]]}, {value[3]}, {value[4]}, {value[5]})")
                 print('Finish INSERT into RAM')
             except Exception as ex:
                 print(ex)
@@ -145,9 +145,9 @@ def insert_Power_unit():
         # Filling Form Factors
         with conn.cursor() as curs:
             try:
-                curs.execute(f"INSERT INTO Power_unit_type (Type) VALUES ('ATX')")
-                curs.execute(f"INSERT INTO Power_unit_type (Type) VALUES ('TFX')")
-                curs.execute(f"INSERT INTO Power_unit_type (Type) VALUES ('SFX')")
+                curs.execute(f"INSERT INTO Power_unit_type (Power_unit_type) VALUES ('ATX')")
+                curs.execute(f"INSERT INTO Power_unit_type (Power_unit_type) VALUES ('TFX')")
+                curs.execute(f"INSERT INTO Power_unit_type (Power_unit_type) VALUES ('SFX')")
                 print('Finish INSERT into Power_unit_tyoe')
             except Exception as ex:
                 print(ex)
@@ -158,7 +158,7 @@ def insert_Power_unit():
             filter = create_dict(curs.fetchall())
             try:
                 for value in wb.parse(0).values:
-                    curs.execute(f"INSERT INTO Power_unit (img, Name, Type, Power, Price) VALUES ('{value[0]}', '{value[1]}', {filter[value[2].strip()]}, {value[3]}, {value[4]})")
+                    curs.execute(f"INSERT INTO Power_unit (img, Name, Power_unit_type, Power, Price) VALUES ('{value[0]}', '{value[1]}', {filter[value[2].strip()]}, {value[3]}, {value[4]})")
                 print('Finish INSERT into Power_unit')
             except Exception as ex:
                 print(ex) 
