@@ -1,5 +1,13 @@
-import React from "react";
+// import React from "react";
 //import logo from "./Untitled.jpeg";
+import React, { useState } from "react";
+import ModalContacts from "./Modal/ModalContacts";
+import ModalInfo from "./Modal/ModalInfo";
+import "./styles.css";
+
+import {Routes, Route} from "react-router-dom";
+import {ConfigsPage} from "./pages/ConfigsPage";
+import {MainPage} from "./pages/MainPage"
 
 function App() {
   async function getBody() {
@@ -30,10 +38,10 @@ function App() {
           "Content-Type":'application/json'
         },
         body: JSON.stringify({
-          "Price": [10000,30000],
-          "Frequency": [2,4],
-          "Core_number": [4],
-          "TDP": ""
+          // "Price": [10000,30000],
+          // "Frequency": [2,4],
+          // "Core_number": [8],
+          // "TDP": ""
         })
 
       }
@@ -168,14 +176,14 @@ function App() {
           "Content-Type":'application/json'
         },
         body: JSON.stringify({
-          "Name":"Sborka",
-          "Body":"1",
-          "Motherboard":"1",
+          "Name":"Sborka-pereborka",
+          "Body":"2",
+          "Motherboard":"3",
           "Processor":"1",
           "Cooling_system":"1",
           "RAM":"1",
           "Videocard":"2",
-          "Disk":"1",
+          "Disk":"4",
           "Power_unit":"1",
           "Full_price":"2"
         })
@@ -253,7 +261,6 @@ function App() {
           "NewName":"nameTest",
           "ID":"3"
         })
-
       }
     )
     const jsonData = await response.json()
@@ -337,9 +344,11 @@ function App() {
     
   }
 
+  const [modalInfoActive, setModalInfoActive] = useState(false);
+  const [modalContactsActive, setModalContactsActive] = useState(false);
   //получение фильтров 
   return (
-    <div>
+    <div className="app">
       {<button onClick={getCpu}>Get CPU</button>}
       {<button onClick={getMotherBoard}>Get Motherboard</button>}
       {<button onClick={getBody}>Get Body</button>}
@@ -357,6 +366,30 @@ function App() {
       {<button onClick={deleteConfig}>Delete Config</button>}
       {<button onClick={updateNameConfig}>Update Name Config</button>}
       {/* {<button onClick={getFiltersInComponent}>Get Component Filters</button>} */}
+    
+
+    
+      <header className="header">
+        <a href="/">
+          <img src="./images/logo.svg" alt="логотип" className="mainLogo" / >
+        </a>
+        <nav className="navbar">
+          <a href="/Configs" className="configurations">Каталог конфигураций</a>
+          <button className="open-btn" onClick={() => setModalInfoActive(true)}>Мануал</button>
+          <button className="open-btn" onClick={() => setModalContactsActive(true)}>Обратная свзь</button>
+        </nav>
+      </header>
+
+
+      <ModalInfo active={modalInfoActive} setActive={setModalInfoActive} className="modalInfo">
+      </ModalInfo>
+      <ModalContacts active={modalContactsActive} setActive={setModalContactsActive} className="modalContacts">
+      </ModalContacts>
+
+      <Routes>
+        <Route path="/" element={<MainPage />}/>  
+        <Route path="/configs" element={<ConfigsPage />}/>
+      </Routes>
     </div>
   );
 }
