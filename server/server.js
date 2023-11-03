@@ -381,7 +381,7 @@ app.post("/set_config", async (req, res) => {//сохранение конфиг
 
 app.post("/get_configs", async (req, res) => {//получение всех конфигураций
   try{
-    query="SELECT Configuration.id, Configuration.Name AS CONF_NAME, Body.Name AS BODY_NAME, Motherboard.Name AS MOTHER_NAME, Processor.Name AS CPU_NAME,\
+    query="SELECT Configuration.id, Body.img as Img, Configuration.Name AS CONF_NAME, Body.Name AS BODY_NAME, Motherboard.Name AS MOTHER_NAME, Processor.Name AS CPU_NAME,\
     Cooling_system.Name AS COOL_NAME, RAM.Name AS RAM_NAME, Videocard.Name AS VIDEO_NAME, Disk.Name AS SDD_NAME, Power_unit.Name AS POWER_NAME, Full_price FROM Configuration\
     JOIN Body ON Body.id = Configuration.Body\
     JOIN Motherboard ON Motherboard.id = Configuration.Motherboard\

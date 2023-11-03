@@ -19,7 +19,7 @@ function App() {
           "Content-Type":'application/json'
         },
         body: JSON.stringify({
-          "Price": [6000,30000]
+          "Price": [6000,15000]
         })
 
       }
@@ -239,7 +239,7 @@ function App() {
           "Content-Type":'application/json'
         },
         body: JSON.stringify({
-          "ID":"1"
+          "ID":"4"
         })
 
       }

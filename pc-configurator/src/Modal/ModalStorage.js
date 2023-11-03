@@ -1,17 +1,14 @@
-import React from "react";
-import "./modalStorage.css"
+import React, { useState, useEffect } from 'react';
+import "./modalCase.css"
+import IronVue from '../components/IronVue';
 
-const ModalStorage = ({active, setActive}) => {
+const ModalStorage = ({active, setActive, items}) => {
+
     return (
         <div className={active ? "modal active" : "modal"} onClick={() => setActive(false)}>
             <div className={active ? "modal__content active" : "modal__content"} onClick={e => e.stopPropagation()}>
-                <div className="contacts">
-                    <span className="sostav">Состав команды:</span>
-                    <span>Титеев Рамиль</span> 
-                    <span>Жилов Андрей</span> 
-                    <span>Козлов Егор</span> 
-                    <span>Солдатова Наталья</span> 
-                    <span>Добровольский Иван</span>
+                <div className='scroll'>
+                    <IronVue items={items}/>
                 </div>
             </div>
         </div>

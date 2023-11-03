@@ -1,0 +1,48 @@
+.uglyImg {
+    width: 140px;
+    margin: 16px;
+}
+
+.wrapper {
+    border-top: 2px #B3B3B3 solid;
+    display: flex;
+    align-items: center;
+}
+
+.iron {
+    margin: 0;
+    color: #838383;
+}
+
+.rightBlock {
+    padding-left: 100px;
+}
+
+.price {
+    text-align: center;
+}
+
+.delete {
+    border: 0;
+    background-color: white;
+    transition: 0.4s;
+}
+
+.delete:hover {
+    text-decoration: underline;
+    transition: 0.4s;
+}
+
+.name {
+    display: flex;
+}
+
+.rename {
+    border: 0;
+    background-color: white;
+    background-image: "./Group.svg";
+}
+
+.leftBlock {
+    display: flex;
+}
