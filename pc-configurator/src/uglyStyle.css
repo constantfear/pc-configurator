@@ -40,7 +40,11 @@
 .rename {
     border: 0;
     background-color: white;
-    background-image: "./Group.svg";
+    font-size: 30px;
+}
+
+.renameBtn {
+    background-color: black;
 }
 
 .leftBlock {

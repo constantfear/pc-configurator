@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import "../uglyStyle.css"
+import MyComponentName from './MyComponentName';
 
 function MyComponent() {
   const [data, setData] = useState(null);
@@ -36,7 +37,6 @@ function MyComponent() {
       }
     )
     const jsonData = await response.json()
-    console.log(jsonData)
     
   }
 
@@ -52,21 +52,19 @@ function MyComponent() {
     }
 
     fetchData();
-  }, []); // Второй аргумент (пустой массив) означает, что эффект будет выполняться только при монтировании компонента.
+  }, [<button></button>]); // Второй аргумент (пустой массив) означает, что эффект будет выполняться только при монтировании компонента.
 
   return (
     <div>
         {
             data?.map(config => {
-                console.log(config.id)
                 return(
                     <div key={config.id} className='wrapper'>
                       <div className='leftBlock'>
                         <img src={config.img} alt="" className='uglyImg'/>
                         <div className='irons'>
                           <div className='name'>
-                            <h2>{config.conf_name}</h2>
-                            <button className='rename'>гхалочка</button>
+                            <MyComponentName config={config}/>
                           </div>
                           <div >
                             <p className='iron'>{config.cpu_name}</p>
