@@ -2,13 +2,13 @@ import React, { useState, useEffect } from 'react';
 import "./modalCase.css"
 import IronVue from '../components/IronVue';
 
-const ModalCPU = ({active, setActive, items}) => {
+const ModalCPU = ({active, setActive, items, parentCallback}) => {
 
     return (
         <div className={active ? "modal active" : "modal"} onClick={() => setActive(false)}>
             <div className={active ? "modal__content active" : "modal__content"} onClick={e => e.stopPropagation()}>
                 <div className='scroll'>
-                    <IronVue items={items}/>
+                    <IronVue items={items} parentCallback={parentCallback}/>
                 </div>
             </div>
         </div>

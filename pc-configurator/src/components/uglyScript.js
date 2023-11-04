@@ -76,7 +76,7 @@ function MyComponent() {
                         </div>
                       </div>
                         <div className='rightBlock'>
-                          <p className='price'>Price</p>
+                          <p className='price'>{String(config.full_price)}</p>
                           <button onClick={() => deleteConfig(config.id)} className='delete'>Удалить</button>
                         </div>
                     </div>

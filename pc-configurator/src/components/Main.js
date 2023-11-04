@@ -20,6 +20,43 @@ const Main = () => {
   const [dataStorage, setStorage] = useState(null);
   const [dataPower, setPower] = useState(null);
 
+  const [pickedCase, setConfigCase] = useState("");
+  const [pickedMother, setConfigMother] = useState("");
+  const [pickedCool, setConfigCool] = useState("");
+  const [pickedRAM, setConfigRAM] = useState("");
+  const [pickedGPU, setConfigGPU] = useState("");
+  const [pickedStorage, setConfigStorage] = useState("");
+  const [pickedPower, setConfigPower] = useState("");
+  const [pickedCPU, setConfigCPU] = useState("");
+  const [pickedName, setName] = useState("Сборка");
+
+  async function setConfig(name, body, mother, cpu, cool, ram, gpu, storage, power) {
+    const fullPrice = cpu.price + mother.price + body.price + cool.price + ram.price + gpu.price + storage.price + power.price
+    const response=await fetch(
+      'http://localhost:8080/set_config',
+      {
+        method: 'POST',
+        headers:{
+          "Content-Type":'application/json'
+        },
+        body: JSON.stringify({
+          "Name":name,
+          "Body":String(body.id),
+          "Motherboard":String(mother.id),
+          "Processor":String(cpu.id),
+          "Cooling_system":String(cool.id),
+          "RAM":String(ram.id),
+          "Videocard":String(gpu.id),
+          "Disk":String(storage.id),
+          "Power_unit":String(power.id),
+          "Full_price":String(fullPrice)
+        })
+      }
+    )
+    const jsonData = await response.json()
+    console.log(jsonData)
+  }
+
   async function getBody() {
     const response = await fetch(
       'http://localhost:8080/body',
@@ -29,7 +66,7 @@ const Main = () => {
           "Content-Type":'application/json'
         },
         body: JSON.stringify({
-          "Price": [6000,15000]
+          "Price": [0,30000]
         })
 
       }
@@ -50,8 +87,8 @@ const Main = () => {
           "Content-Type":'application/json'
         },
         body: JSON.stringify({
-          "Price": [10000,30000],
-          "Frequency": [2,4],
+          "Price": [10000,300000],
+          "Frequency": [2,16],
           "Core_number": [8],
           "TDP": ""
         })
@@ -79,7 +116,6 @@ const Main = () => {
       }
     )
     const jsonData = await response.json()
-    // console.log(jsonData)
     return jsonData.Page_data
     
   }
@@ -303,23 +339,24 @@ const Main = () => {
           </div>
         </div>
         <div className="rightConteiners">
-          <button >Сохранить сборку</button>
+          <input type="text" placeholder="Введите название сборки" value={pickedName} onChange={e => setName(e.target.value)}/>
+          <button onClick={() => setConfig(pickedName, pickedCase, pickedMother, pickedCPU, pickedCool, pickedRAM, pickedGPU, pickedStorage, pickedPower)}>Сохранить сборку</button>
         </div>
-        <ModalCase active={modalCaseActive} setActive={setModalCaseActive} items={dataBody} className="modalCase">
+        <ModalCase active={modalCaseActive} setActive={setModalCaseActive} items={dataBody} state={pickedCase} parentCallback={setConfigCase} className="modalCase">
         </ModalCase>
-        <ModalMother active={modalMotherActive} setActive={setModalMotherActive} items={dataMother} className="modalCase">
+        <ModalMother active={modalMotherActive} setActive={setModalMotherActive} items={dataMother} state={pickedMother} parentCallback={setConfigMother} className="modalCase">
         </ModalMother>
-        <ModalCool active={modalCoolActive} setActive={setModalCoolActive} items={dataCool} className="modalCase">
+        <ModalCool active={modalCoolActive} setActive={setModalCoolActive} items={dataCool} state={pickedCool} parentCallback={setConfigCool} className="modalCase">
         </ModalCool>
-        <ModalRAM active={modalRAMActive} setActive={setModalRAMActive} items={dataRAM} className="modalCase">
+        <ModalRAM active={modalRAMActive} setActive={setModalRAMActive} items={dataRAM} state={pickedRAM} parentCallback={setConfigRAM} className="modalCase">
         </ModalRAM>
-        <ModalGPU active={modalGPUActive} setActive={setModalGPUActive} items={dataGPU} className="modalCase">
+        <ModalGPU active={modalGPUActive} setActive={setModalGPUActive} items={dataGPU} state={pickedGPU} parentCallback={setConfigGPU} className="modalCase">
         </ModalGPU>
-        <ModalStorage active={modalStorageActive} setActive={setModalStorageActive} items={dataStorage} className="modalCase">
+        <ModalStorage active={modalStorageActive} setActive={setModalStorageActive} items={dataStorage} state={pickedStorage} parentCallback={setConfigStorage} className="modalCase">
         </ModalStorage>
-        <ModalPower active={modalPowerActive} setActive={setModalPowerActive} items={dataPower} className="modalCase">
+        <ModalPower active={modalPowerActive} setActive={setModalPowerActive} items={dataPower} state={pickedPower} parentCallback={setConfigPower} className="modalCase">
         </ModalPower>
-        <ModalCPU active={modalCPUActive} setActive={setModalCPUActive} items={dataCPU} className="modalCase">
+        <ModalCPU active={modalCPUActive} setActive={setModalCPUActive} items={dataCPU} state={pickedCPU} parentCallback={setConfigCPU} className="modalCase">
         </ModalCPU>
       </main>
 

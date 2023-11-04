@@ -1,6 +1,10 @@
-import React, { Component } from 'react'
+import React, {useState, Component } from 'react'
 
-export default function IronVue({items}) {
+export default function IronVue({items, parentCallback}) {
+
+    function handlerItem(event) {
+        parentCallback(event)
+    }
 
     return (
       <div>
@@ -14,7 +18,7 @@ export default function IronVue({items}) {
                         </div>
                         <div>
                             <h2>{item.price}</h2>
-                            <button>Добавить</button>
+                            <button onClick={() => handlerItem(item)}>Добавить</button>
                         </div> 
                     </div>
                     )
