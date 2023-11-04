@@ -22,6 +22,39 @@ entire body portion of an incoming
 request stream and exposes it on req.body
 */
 
+async function get_data_cpu(num_cols, cat_cols, component, data, base_query){
+  query = base_query
+  for (var f in data){
+    if(data[f]){
+      if(num_cols.includes(f)){
+        query=query+' AND '+f+'>'+data[f][0]+' AND '+f+'<'+data[f][1]
+      }
+      if(category_filters.includes(f)){
+        query=query+' AND ('+f+'='+data[f][0]
+        if(data[f].length>1){
+          for(i=1;i<data[f].length;i++){
+              query=query+' OR '+f+'='+data[f][i]
+          }
+        }
+        query=query+')'
+       
+      }
+    }
+    console.log(query)
+  }
+  
+  all_data = await pool.query(query);
+  all_data = {'Page_data' : all_data.rows} 
+  for (var cat_col in cat_cols){
+    filter_querry = `SELECT ${cat_cols[cat_col]}, COUNT(*) as amount FROM ${component} \
+    GROUP BY ${cat_cols[cat_col]}`;
+    filter = await pool.query(filter_querry)
+    f = {[cat_cols[cat_col]] : filter.rows}
+    all_data = Object.assign(all_data, f)
+  }
+  return all_data
+}
+
 async function get_data(num_cols, cat_cols, component, data, base_query){
   query = base_query
 
@@ -106,8 +139,8 @@ app.get("/", (req, res) => {
 app.post("/cpu", async (req,res) =>{
   data=req.body
   console.log(data)
-  category_filters=["Core_number", "Threads_number", "Socket"]
-  join_cols = ["Socket"]
+  category_filters=["Core_number", "Threads_number"] 
+  // , "Socket"]
   num_filters=["Frequency", "TDP", "Price"]
   component = 'Processor'
   try {
@@ -131,10 +164,29 @@ app.post("/cpu", async (req,res) =>{
       }
       console.log(query)
     }
-    all_data = await pool.query(query)
+    
+    all_data = await pool.query(query);
     all_data = {'Page_data' : all_data.rows} 
+    for (var cat_col in category_filters){
+      filter_querry = `SELECT ${category_filters[cat_col]}, COUNT(*) as amount FROM ${component} \
+      GROUP BY ${category_filters[cat_col]}`;
+      filter = await pool.query(filter_querry)
+      f = {[category_filters[cat_col]] : filter.rows}
+      all_data = Object.assign(all_data, f)
+    }
 
+    filter_querry = `SELECT Socket.Socket, COUNT(*) as amount FROM ${component} \
+    JOIN Socket ON Socket.id = Processor.Socket\
+    GROUP BY Socket.Socket`;
+    filter = await pool.query(filter_querry)
+    f = {'Socket' : filter.rows}
+    all_data = Object.assign(all_data, f)
 
+    
+    // all_data = await pool.query(query)
+    // all_data = {'Page_data' : all_data.rows} 
+
+    // full = await get_data(num_filters, category_filters, component, data, base_query)
 
     
     
@@ -226,8 +278,16 @@ app.post("/cooling_system", async (req,res) =>{
       }
       console.log(query)
     }
-    all_data = await pool.query(query)
+    
+    all_data = await pool.query(query);
     all_data = {'Page_data' : all_data.rows} 
+
+    filter_querry = `SELECT Cooling_system.Cooling_system_type, COUNT(*) as amount FROM ${component} \
+    GROUP BY Cooling_system.Cooling_system_type`;
+    filter = await pool.query(filter_querry)
+    f = {'Cooling_system_type' : filter.rows}
+    all_data = Object.assign(all_data, f)
+
     res.json(all_data);
   }
   catch (err){
