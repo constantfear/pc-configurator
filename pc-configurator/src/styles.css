@@ -62,6 +62,10 @@ html {
     
 }
 
+.components.active {
+    border: 2px green solid;
+}
+
 .componentLogo {
     display: flex;
     align-items: center;

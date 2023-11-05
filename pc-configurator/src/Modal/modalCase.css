@@ -26,10 +26,12 @@
     transition: 0.4s all;
     height: 600px;
     width: 1000px;
+    display: flex;
 }
 
 .modal__content.active {
     transform: scale(1);
+    display: flex;
 }
 
 .wrapper {
