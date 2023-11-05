@@ -23,19 +23,19 @@ const ModalCool = ({active, setActive, items, parentCallback, itemsInfo}) => {
             filtered = filtered.filter(n => n.title.toLowerCase().includes(s));
         }
     
-        if (liquidCheckbox) {
-          filtered = filtered.filter(n => n.cooling_system_type === "water cooling system");
-        }
-
-        if (airCheckbox) {
-            filtered = filtered.filter(n => n.cooling_system_type === "Conventional cooling system");
-        }
-
         if (airCheckbox && liquidCheckbox) {
-            filtered = filtered
+            filtered = items
         }
 
-
+        if (!(airCheckbox && liquidCheckbox)) {
+            if (liquidCheckbox) {
+                filtered = filtered.filter(n => n.cooling_system_type === "water cooling system");
+              }
+      
+            if (airCheckbox) {
+                filtered = filtered.filter(n => n.cooling_system_type === "Conventional cooling system");
+            }
+        }
     
         setFilteredCool(filtered);
         console.log(filtered)

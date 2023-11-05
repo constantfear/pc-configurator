@@ -394,8 +394,8 @@ const Main = () => {
 
   const [modalCaseActive, setModalCaseActive] = useState(false);
   const [modalMotherActive, setModalMotherActive] = useState(false);
-  const [modalRAMActive, setModalRAMActive] = useState(false);
-  const [modalCoolActive, setModalCoolActive] = useState(true);
+  const [modalRAMActive, setModalRAMActive] = useState(true);
+  const [modalCoolActive, setModalCoolActive] = useState(false);
   const [modalGPUActive, setModalGPUActive] = useState(false);
   const [modalStorageActive, setModalStorageActive] = useState(false);
   const [modalPowerActive, setModalPowerActive] = useState(false);
