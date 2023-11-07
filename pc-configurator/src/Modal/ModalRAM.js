@@ -1,120 +1,57 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, Suspense } from 'react';
 import "./modalRAM.css"
 import IronVue from '../components/IronVue';
 
-const ModalRAM = ({active, setActive, items, parentCallback, itemsInfo}) => {
+const ModalRAM = ({active, setActive, items, isLoading, parentCallback}) => {
 
-    const [filteredRAM, setFilteredRAM] = useState(null)
-    const [ddr2Checkbox, setDdr2Checkbox] = useState(null);
-    const [ddr3Checkbox, setDdr3Checkbox] = useState(null);
-    const [ddr4Checkbox, setDdr4Checkbox] = useState(null);
-    const [ddr5Checkbox, setDdr5Checkbox] = useState(null);
-    const [ searchMin, setSearchMin ] = useState('');
-    const [ searchMax, setSearchMax ] = useState('');
-
+    const [selectedFilters, setSelectedFilters] = useState([]);
+    const [filteredItems, setFilteredItems] = useState(items);
+  
+    let filters = ["DDR2", "DDR3", "DDR4", "DDR5"];
+  
+    const handleFilterButtonClick = (selectedCategory) => {
+      if (selectedFilters.includes(selectedCategory)) {
+        let filters = selectedFilters.filter((el) => el !== selectedCategory);
+        setSelectedFilters(filters);
+      } else {
+        setSelectedFilters([...selectedFilters, selectedCategory]);
+      }
+    };
+  
     useEffect(() => {
-        let filtered = items;
-    
-        if (searchMin) {
-          const s = searchMin.toLowerCase();
-          filtered = filtered.filter(n => n.title.toLowerCase().includes(s));
-        }
-
-        if (searchMax) {
-            const s = searchMax.toLowerCase();
-            filtered = filtered.filter(n => n.title.toLowerCase().includes(s));
-        }
-    
-        if (ddr2Checkbox && ddr3Checkbox && ddr4Checkbox && ddr5Checkbox) {
-            filtered = items
-        }
-
-        if (!(ddr2Checkbox && ddr3Checkbox && ddr4Checkbox && ddr5Checkbox)) {
-            if (!ddr2Checkbox) { //3
-                filtered = filtered.filter(n => n.memory_type === 0 || n.memory_type === 1 || n.memory_type === 2);
-              }
-      
-            if (!ddr3Checkbox) { //1
-                filtered = filtered.filter(n => n.memory_type === 0 || n.memory_type === 2 || n.memory_type === 3);
-            }
-
-            if (!ddr4Checkbox) { //0
-                filtered = filtered.filter(n => n.memory_type === 1 || n.memory_type === 2 || n.memory_type === 3);
-              }
-      
-            if (!ddr5Checkbox) { //2
-                filtered = filtered.filter(n => n.memory_type === 0 || n.memory_type === 1 || n.memory_type === 3);
-            }
-        }
-        
-        setFilteredRAM(filtered);
-        console.log(filtered)
-    }, [ items, searchMin, searchMax, ddr2Checkbox, ddr3Checkbox, ddr4Checkbox, ddr5Checkbox ]);
-
+      filterItems();
+    }, [selectedFilters, isLoading]);
+  
+    const filterItems = () => {
+      if (selectedFilters.length > 0) {
+        let tempItems = selectedFilters.map((selectedCategory) => {
+          let temp = items.filter((item) => item.memory_type === selectedCategory);
+          return temp;
+        });
+        setFilteredItems(tempItems.flat());
+      } else if (!isLoading) {
+        setFilteredItems([...items]);
+        console.log("FLAG")
+      }
+      console.log(filteredItems);
+    };
     return (
         <div className={active ? "modal active" : "modal"} onClick={() => setActive(false)}>
             <div className={active ? "modal__content active" : "modal__content"} onClick={e => e.stopPropagation()}>
-                <form class="filtrs">
-                    <div className='price'>
-                        <input 
-                            type="text"
-                            placeholder='0'
-                            value={searchMin}
-                            onChange={e => setSearchMin(e.target.value)} 
-                        />
-                        <input 
-                            type="text"
-                            placeholder='10000'
-                            value={searchMax}
-                            onChange={e => setSearchMax(e.target.value)}
-                        />
-                    </div>
-                    <div>
-                        <p>Тип оперативной памяти</p>
-                        <div>
-                            <input 
-                                id="selectName0" 
-                                type="checkbox"
-                                value={ddr2Checkbox} 
-                                name="selectRAM" 
-                                onChange={e => setDdr2Checkbox(e.target.checked)}
-                            />
-                            <label for="selectName0">DDR2</label>
-                        </div>
-                        <div>
-                            <input 
-                                id="selectName1" 
-                                type="checkbox"
-                                value={ddr3Checkbox} 
-                                name="selectRAM" 
-                                onChange={e => setDdr3Checkbox(e.target.checked)}                            
-                            />
-                            <label for="selectName1">DDR3</label>
-                        </div>
-                        <div>
-                            <input 
-                                id="selectName2" 
-                                type="checkbox"
-                                value={ddr4Checkbox} 
-                                name="selectRAM" 
-                                onChange={e => setDdr4Checkbox(e.target.checked)}                            
-                            />
-                            <label for="selectName2">DDR4</label>
-                        </div>
-                        <div>
-                            <input 
-                                id="selectName3" 
-                                type="checkbox"
-                                value={ddr5Checkbox} 
-                                name="selectRAM" 
-                                onChange={e => setDdr5Checkbox(e.target.checked)}                            
-                            />
-                            <label for="selectName3">DDR5</label>
-                        </div>
-                    </div>
-                </form>
+                <div className="buttons-container">                    
+                    <p>Тип оперативной памяти:</p>
+                    {filters.map((category, idx) => (
+                        <button
+                            onClick={() => handleFilterButtonClick(category)}
+                            className={`button ${selectedFilters?.includes(category) ? "active" : ""}`}
+                            key={`filters-${idx}`}
+                        >
+                            {category}
+                        </button>
+                    ))}
+                </div>
                 <div className='scroll'>
-                    <IronVue items={filteredRAM} parentCallback={parentCallback}/>
+                    <IronVue items={filteredItems} parentCallback={parentCallback}/>
                 </div>
             </div>
         </div>

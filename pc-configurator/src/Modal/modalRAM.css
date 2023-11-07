@@ -50,3 +50,33 @@
     overflow-y: scroll; /* Включаем вертикальную прокрутку */
     overflow-x:hidden;
 }
+
+
+.buttons-container {
+    /* display: flex; */
+    justify-content: center;
+    margin-top: 20px;
+  }
+  .button {
+    border: 1px solid #000;
+    background: transparent;
+    margin: 5px 5px;
+    border-radius: 5px;
+    padding: 5px 10px;
+    cursor: pointer;
+    transition: all 0.2s ease-in-out;
+  }
+  
+  .button:hover {
+    box-shadow: 3px 3px 0px 0px rgba(0, 0, 0);
+}
+
+.category {
+    color: #64748b;
+    font-size: 10px;
+  }
+  
+.button.active {
+    background-color: #1e293b;
+    color: #fff;
+}

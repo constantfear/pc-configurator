@@ -27,6 +27,8 @@ const ModalCool = ({active, setActive, items, parentCallback, itemsInfo}) => {
             filtered = items
         }
 
+        
+
         if (!(airCheckbox && liquidCheckbox)) {
             if (liquidCheckbox) {
                 filtered = filtered.filter(n => n.cooling_system_type === "water cooling system");
@@ -38,7 +40,6 @@ const ModalCool = ({active, setActive, items, parentCallback, itemsInfo}) => {
         }
     
         setFilteredCool(filtered);
-        console.log(filtered)
     }, [ items, searchMin, searchMax, liquidCheckbox, airCheckbox ]);
 
     return (

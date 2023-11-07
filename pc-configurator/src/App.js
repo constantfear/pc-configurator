@@ -1,6 +1,6 @@
 // import React from "react";
 //import logo from "./Untitled.jpeg";
-import React, { useState } from "react";
+import React, { useState, useEffect, Suspense } from "react";
 import ModalContacts from "./Modal/ModalContacts";
 import ModalInfo from "./Modal/ModalInfo";
 import "./styles.css";
@@ -10,6 +10,16 @@ import {ConfigsPage} from "./pages/ConfigsPage";
 import {MainPage} from "./pages/MainPage"
 
 function App() {
+
+  const [dataBody, setBody] = useState(null);
+  const [dataMother, setMother] = useState(null);
+  const [dataRAM, setRAM] = useState(null);
+  const [dataCool, setCool] = useState(null);
+  const [dataGPU, setGPU] = useState(null);
+  const [dataCPU, setCPU] = useState(null);
+  const [dataStorage, setStorage] = useState(null);
+  const [dataPower, setPower] = useState(null);
+
   async function getBody() {
     const response = await fetch(
       'http://localhost:8080/body',
@@ -19,7 +29,7 @@ function App() {
           "Content-Type":'application/json'
         },
         body: JSON.stringify({
-          "Price": [6000,15000]
+          "Price": [0,300000]
         })
 
       }
@@ -48,7 +58,6 @@ function App() {
     )
     const jsonData = await response.json()
     console.log(jsonData)
-    
   }
 
   async function getMotherBoard() {
@@ -68,7 +77,6 @@ function App() {
     )
     const jsonData = await response.json()
     console.log(jsonData)
-    
   }
 
   async function getCoolingSystem() {
@@ -87,7 +95,6 @@ function App() {
     )
     const jsonData = await response.json()
     console.log(jsonData)
-    
   }
 
   async function getHardDrive() {
@@ -106,7 +113,6 @@ function App() {
     )
     const jsonData = await response.json()
     console.log(jsonData)
-    
   }
 
   async function getRAM() {
@@ -125,7 +131,6 @@ function App() {
     )
     const jsonData = await response.json()
     console.log(jsonData)
-    
   }
 
   async function getPowerUnit() {
@@ -144,7 +149,6 @@ function App() {
     )
     const jsonData = await response.json()
     console.log(jsonData)
-    
   }
 
   async function getVideocard() {
@@ -163,7 +167,6 @@ function App() {
     )
     const jsonData = await response.json()
     console.log(jsonData)
-    
   }
 
 
@@ -385,11 +388,12 @@ function App() {
       </ModalInfo>
       <ModalContacts active={modalContactsActive} setActive={setModalContactsActive} className="modalContacts">
       </ModalContacts>
-
+      <Suspense fallback={<div>loading...</div>}>
       <Routes>
         <Route path="/" element={<MainPage />}/>  
         <Route path="/configs" element={<ConfigsPage />}/>
       </Routes>
+      </Suspense>
     </div>
   );
 }
