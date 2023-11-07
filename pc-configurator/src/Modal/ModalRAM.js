@@ -31,24 +31,45 @@ const ModalRAM = ({active, setActive, items, isLoading, parentCallback}) => {
         setFilteredItems(tempItems.flat());
       } else if (!isLoading) {
         setFilteredItems([...items]);
-        console.log("FLAG")
       }
-      console.log(filteredItems);
     };
     return (
         <div className={active ? "modal active" : "modal"} onClick={() => setActive(false)}>
             <div className={active ? "modal__content active" : "modal__content"} onClick={e => e.stopPropagation()}>
                 <div className="buttons-container">                    
                     <p>Тип оперативной памяти:</p>
-                    {filters.map((category, idx) => (
-                        <button
-                            onClick={() => handleFilterButtonClick(category)}
-                            className={`button ${selectedFilters?.includes(category) ? "active" : ""}`}
-                            key={`filters-${idx}`}
-                        >
-                            {category}
-                        </button>
-                    ))}
+                      <div>
+                          <input 
+                              type="checkbox"
+                              name="DDR2"
+                              onChange={() => handleFilterButtonClick("DDR2")} 
+                          />
+                          <label for="DDR2">DDR2</label>
+                      </div>
+                      <div>
+                          <input 
+                              type="checkbox"
+                              name="DDR3"
+                              onChange={() => handleFilterButtonClick("DDR3")} 
+                          />
+                          <label for="DDR3">DDR3</label>
+                      </div>
+                      <div>
+                          <input 
+                              type="checkbox"
+                              name="DDR4"
+                              onChange={() => handleFilterButtonClick("DDR4")} 
+                          />
+                          <label for="DDR4">DDR4</label>
+                      </div>
+                      <div>
+                          <input 
+                              type="checkbox"
+                              name="DDR5"
+                              onChange={() => handleFilterButtonClick("DDR5")} 
+                          />
+                          <label for="DDR5">DDR5</label>
+                      </div>
                 </div>
                 <div className='scroll'>
                     <IronVue items={filteredItems} parentCallback={parentCallback}/>

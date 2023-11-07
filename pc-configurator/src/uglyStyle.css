@@ -20,12 +20,14 @@
 
 .price {
     text-align: center;
+    font-family: "Play", sans-serif;
 }
 
 .delete {
     border: 0;
     background-color: white;
     transition: 0.4s;
+    font-family: "Poiret One", sans-serif;
 }
 
 .delete:hover {
@@ -40,7 +42,8 @@
 .rename {
     border: 0;
     background-color: white;
-    font-size: 30px;
+    font-size: 28px;
+    font-family: "Play", sans-serif;
 }
 
 .renameBtn {

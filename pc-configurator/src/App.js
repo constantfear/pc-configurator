@@ -379,7 +379,7 @@ function App() {
         <nav className="navbar">
           <a href="/Configs" className="configurations">Каталог конфигураций</a>
           <button className="open-btn" onClick={() => setModalInfoActive(true)}>Мануал</button>
-          <button className="open-btn" onClick={() => setModalContactsActive(true)}>Обратная свзь</button>
+          <button className="open-btn" onClick={() => setModalContactsActive(true)}>Обратная связь</button>
         </nav>
       </header>
 

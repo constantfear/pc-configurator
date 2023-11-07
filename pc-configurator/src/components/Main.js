@@ -20,6 +20,15 @@ const ModalCool = React.lazy(() => import ("../Modal/ModalCool"))
 
 const Main = () => {
 
+  const [countBody, setCountBody] = useState(0);
+  const [countMother, setCountMother] = useState(0);
+  const [countRAM, setCountRAM] = useState(0);
+  const [countCool, setCountCool] = useState(0);
+  const [countGPU, setCountGPU] = useState(0);
+  const [countCPU, setCountCPU] = useState(0);
+  const [countStorage, setCountStorage] = useState(0);
+  const [countPower, setCountPower] = useState(0);
+
   const [dataBody, setBody] = useState(null);
   const [dataMother, setMother] = useState(null);
   const [dataRAM, setRAM] = useState(null);
@@ -39,14 +48,7 @@ const Main = () => {
   const [pickedCPU, setConfigCPU] = useState("");
   const [pickedName, setName] = useState("Сборка");
 
-  const [isLoadingCase, setIsLoadingCase] = useState(true);
-  const [isLoadingMother, setIsLoadingMother] = useState(true);
-  const [isLoadingCool, setIsLoadingCool] = useState(true);
-  const [isLoadingRAM, setIsLoadingRAM] = useState(true);
-  const [isLoadingGPU, setIsLoadingGPU] = useState(true);
-  const [isLoadingStorage, setIsLoadingStorage] = useState(true);
-  const [isLoadingPower, setIsLoadingPower] = useState(true);
-  const [isLoadingCPU, setIsLoadingCPU] = useState(true);
+  const [isLoading, setIsLoading] = useState(true);
 
   async function setConfig(name, body, mother, cpu, cool, ram, gpu, storage, power) {
     const fullPrice = cpu.price + mother.price + body.price + cool.price + ram.price + gpu.price + storage.price + power.price
@@ -103,10 +105,7 @@ const Main = () => {
           "Content-Type":'application/json'
         },
         body: JSON.stringify({
-          "Price": [0,300000],
-          "Frequency": [2,16],
-          "Core_number": [8],
-          "TDP": ""
+
         })
       }
     )
@@ -216,6 +215,25 @@ const Main = () => {
     return jsonData.Page_data
   }
 
+  async function getCount(iron) { 
+    const response = await fetch(
+      'http://localhost:8080/count',
+      {
+        method: 'POST',
+        headers:{
+          "Content-Type":'application/json'
+        },
+        body: JSON.stringify({
+          "Component" : iron
+        })
+
+      }
+    )
+    const jsonData = await response.json()
+    return jsonData
+    
+  }
+
   useEffect(() => {
     // Внутри этой функции вы можете вызвать вашу асинхронную функцию
     async function fetchData() {
@@ -228,7 +246,6 @@ const Main = () => {
         setCool(response2); // Устанавливаем полученные данные в состояние
         const response3 = await getRAM();
         setRAM(response3); // Устанавливаем полученные данные в состояние
-        setIsLoadingRAM(false);
         const response4 = await getVideocard();
         setGPU(response4); // Устанавливаем полученные данные в состояние
         const response5 = await getHardDrive();
@@ -237,13 +254,32 @@ const Main = () => {
         setPower(response6); // Устанавливаем полученные данные в состояние
         const response7 = await getCpu();
         setCPU(response7); // Устанавливаем полученные данные в состояние
+        
+        const Count = await getCount("body")
+        setCountBody(Count[0].amount)
+        const Count1 = await getCount("processor")
+        setCountCPU(Count1[0].amount)
+        const Count2 = await getCount("cooling_system")
+        setCountCool(Count2[0].amount)
+        const Count3 = await getCount("videocard")
+        setCountGPU(Count3[0].amount)
+        const Count4 = await getCount("motherboard")
+        setCountMother(Count4[0].amount)
+        const Count5 = await getCount("power_unit")
+        setCountPower(Count5[0].amount)
+        const Count6 = await getCount("ram")
+        setCountRAM(Count6[0].amount)
+        const Count7 = await getCount("disk")
+        setCountStorage(Count7[0].amount)
+
+        setIsLoading(false);
+
       } catch (error) {
         console.error('Ошибка при загрузке данных:', error);
       }
     }
 
     fetchData();
-    console.log(dataRAM)
   }, []); // Второй аргумент (пустой массив) означает, что эффект будет выполняться только при монтировании компонента.
   const [modalCaseActive, setModalCaseActive] = useState(false);
   const [modalMotherActive, setModalMotherActive] = useState(false);
@@ -262,8 +298,8 @@ const Main = () => {
               <p>Корпус</p>
             </div>
             <div className="rightAdd">
-              <p>999 товаров</p>
-              <button className="componentAdd" onClick={() => setModalCaseActive(true)}>Добавить +</button>
+              <p>{countBody} товаров</p>
+              <button className="componentAdd" onClick={() => setModalCaseActive(true)}>Добавить</button>
             </div>
           </div>
           <div className={pickedMother != "" ? "components active" : "components"}>
@@ -273,8 +309,8 @@ const Main = () => {
             </div>
             <div>
               <div className="rightAdd">
-                <p>999 товаров</p>
-                <button className="componentAdd" onClick={() => setModalMotherActive(true)}>Добавить +</button>
+                <p>{countMother} товаров</p>
+                <button className="componentAdd" onClick={() => setModalMotherActive(true)}>Добавить</button>
               </div>
             </div>
           </div>
@@ -284,8 +320,8 @@ const Main = () => {
               <p>Система охлаждения</p>
             </div>
             <div className="rightAdd">
-              <p>999 товаров</p>
-              <button className="componentAdd" onClick={() => setModalCoolActive(true)}>Добавить +</button>
+              <p>{countCool} товаров</p>
+              <button className="componentAdd" onClick={() => setModalCoolActive(true)}>Добавить</button>
             </div>
           </div>
           <div className={pickedRAM != "" ? "components active" : "components"}>
@@ -294,8 +330,8 @@ const Main = () => {
               <p>Оперативная память</p>
             </div>
             <div className="rightAdd">
-              <p>999 товаров</p>
-              <button className="componentAdd" onClick={() => setModalRAMActive(true)}>Добавить +</button>
+              <p>{countRAM} товаров</p>
+              <button className="componentAdd" onClick={() => setModalRAMActive(true)}>Добавить</button>
             </div>
           </div>
           <div className={pickedGPU != "" ? "components active" : "components"}>
@@ -304,8 +340,8 @@ const Main = () => {
               <p>Видеокарта</p>
             </div>
             <div className="rightAdd">
-              <p>999 товаров</p>
-              <button className="componentAdd" onClick={() => setModalGPUActive(true)}>Добавить +</button>
+              <p>{countGPU} товаров</p>
+              <button className="componentAdd" onClick={() => setModalGPUActive(true)}>Добавить</button>
             </div>
           </div>
           <div className={pickedStorage != "" ? "components active" : "components"}>
@@ -314,8 +350,8 @@ const Main = () => {
               <p>Хранение данных</p>
             </div>
             <div className="rightAdd">
-              <p>999 товаров</p>
-              <button className="componentAdd" onClick={() => setModalStorageActive(true)}>Добавить +</button>
+              <p>{countStorage} товаров</p>
+              <button className="componentAdd" onClick={() => setModalStorageActive(true)}>Добавить</button>
             </div>
           </div>
           <div className={pickedPower != "" ? "components active" : "components"}>
@@ -324,8 +360,8 @@ const Main = () => {
               <p>Блок питания</p>
             </div>
             <div className="rightAdd">
-              <p>999 товаров</p>
-              <button className="componentAdd" onClick={() => setModalPowerActive(true)}>Добавить +</button>
+              <p>{countPower} товаров</p>
+              <button className="componentAdd" onClick={() => setModalPowerActive(true)}>Добавить</button>
             </div>
           </div>
           <div className={pickedCPU != "" ? "components active" : "components"}>
@@ -334,8 +370,8 @@ const Main = () => {
               <p>Процессор</p>
             </div>
             <div className="rightAdd">
-              <p>999 товаров</p>
-              <button className="componentAdd" onClick={() => setModalCPUActive(true)}>Добавить +</button>
+              <p>{countCPU} товаров</p>
+              <button className="componentAdd" onClick={() => setModalCPUActive(true)}>Добавить</button>
             </div>
           </div>
         </div>
@@ -344,28 +380,28 @@ const Main = () => {
           <button onClick={() => setConfig(pickedName, pickedCase, pickedMother, pickedCPU, pickedCool, pickedRAM, pickedGPU, pickedStorage, pickedPower)}>Сохранить сборку</button>
         </div>
         <Suspense fallback={<div>loading...</div>}>
-        <ModalCase active={modalCaseActive} setActive={setModalCaseActive} items={dataBody} state={pickedCase} 
+        <ModalCase active={modalCaseActive} setActive={setModalCaseActive} items={dataBody} state={pickedCase} isLoading={isLoading} 
         parentCallback={setConfigCase} className="modalCase">
         </ModalCase>
-        <ModalMother active={modalMotherActive} setActive={setModalMotherActive} items={dataMother} state={pickedMother} 
+        <ModalMother active={modalMotherActive} setActive={setModalMotherActive} items={dataMother} state={pickedMother} isLoading={isLoading} 
         parentCallback={setConfigMother} className="modalCase">
         </ModalMother>
-        <ModalCool active={modalCoolActive} setActive={setModalCoolActive} items={dataCool} state={pickedCool} 
+        <ModalCool active={modalCoolActive} setActive={setModalCoolActive} items={dataCool} state={pickedCool} isLoading={isLoading}
         parentCallback={setConfigCool} className="modalCase">
         </ModalCool>
-        <ModalRAM active={modalRAMActive} setActive={setModalRAMActive} items={dataRAM} isLoading={isLoadingRAM}
+        <ModalRAM active={modalRAMActive} setActive={setModalRAMActive} items={dataRAM} isLoading={isLoading}
         state={pickedRAM} parentCallback={setConfigRAM} className="modalCase">
         </ModalRAM>
-        <ModalGPU active={modalGPUActive} setActive={setModalGPUActive} items={dataGPU} state={pickedGPU} 
+        <ModalGPU active={modalGPUActive} setActive={setModalGPUActive} items={dataGPU} state={pickedGPU} isLoading={isLoading} 
         parentCallback={setConfigGPU} className="modalCase">
         </ModalGPU>
-        <ModalStorage active={modalStorageActive} setActive={setModalStorageActive} items={dataStorage} state={pickedStorage} 
+        <ModalStorage active={modalStorageActive} setActive={setModalStorageActive} items={dataStorage} state={pickedStorage} isLoading={isLoading} 
         parentCallback={setConfigStorage} className="modalCase">
         </ModalStorage>
-        <ModalPower active={modalPowerActive} setActive={setModalPowerActive} items={dataPower} state={pickedPower} 
+        <ModalPower active={modalPowerActive} setActive={setModalPowerActive} items={dataPower} state={pickedPower} isLoading={isLoading}
         parentCallback={setConfigPower} className="modalCase">
         </ModalPower>
-        <ModalCPU active={modalCPUActive} setActive={setModalCPUActive} items={dataCPU} state={pickedCPU} 
+        <ModalCPU active={modalCPUActive} setActive={setModalCPUActive} items={dataCPU} state={pickedCPU} isLoading={isLoading}
         parentCallback={setConfigCPU} className="modalCase">
         </ModalCPU>
         </Suspense>
