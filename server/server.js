@@ -139,7 +139,7 @@ app.get("/", (req, res) => {
 
 app.post("/cpu", async (req,res) =>{
   data=req.body
-  category_filters=["Core_number", "Threads_number"] 
+  category_filters=["Core_number", "Threads_number", "Socket"] 
   // , "Socket"]
   num_filters=["Frequency", "TDP", "Price"]
   component = 'Processor'
@@ -152,8 +152,17 @@ app.post("/cpu", async (req,res) =>{
           console.log(f)
           query=query+' AND ('+f+' BETWEEN '+data[f][0]+' AND '+data[f][1]+')'
         }
-        if(category_filters.includes(f)){
-          query=query+' AND ('+f+'='+data[f][0]
+        if (f == "Socket"){
+          query=query+" AND ( Socket.Socket ='"+data[f][0]+"'"
+          if(data[f].length>1){
+            for(i=1;i<data[f].length;i++){
+                query=query+" OR Socket.Socket ='"+data[f][i]+"'"
+            }
+          }
+          query=query+')'
+        }
+        else if(category_filters.includes(f)){
+          query=query+" AND ("+f+"='"+data[f][0]+"'"
           if(data[f].length>1){
             for(i=1;i<data[f].length;i++){
                 query=query+' OR '+f+'='+data[f][i]
@@ -263,7 +272,16 @@ app.post("/cooling_system", async (req,res) =>{
         if(num_filters.includes(f)){
           query=query+' AND '+f+'>'+data[f][0]+' AND '+f+'<'+data[f][1]
         }
-        if(category_filters.includes(f)){
+        if (f == "Cooling_system_type"){
+          query=query+" AND (Cooling_system.Cooling_system_type='"+data[f][0]+"'"
+          if(data[f].length>1){
+            for(i=1;i<data[f].length;i++){
+                query=query+' OR '+f+'='+data[f][i]
+            }
+          }
+          query=query+')'
+        }
+        else if(category_filters.includes(f)){
           query=query+' AND ('+f+'='+data[f][0]
           if(data[f].length>1){
             for(i=1;i<data[f].length;i++){
