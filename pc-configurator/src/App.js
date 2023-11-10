@@ -48,10 +48,10 @@ function App() {
           "Content-Type":'application/json'
         },
         body: JSON.stringify({
-          // "Price": [10000,30000],
-          // "Frequency": [2,4],
-          // "Core_number": [8],
-          // "TDP": ""
+          "Price": [10000,30000000],
+          "Frequency": [],
+          "Core_number": [],
+          "TDP": ""
         })
 
       }
@@ -69,7 +69,8 @@ function App() {
           "Content-Type":'application/json'
         },
         body: JSON.stringify({
-          
+          "Form_factor": ["microATX","ATX"],
+          "Memory_type": []
         })
         
         

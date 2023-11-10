@@ -49,7 +49,7 @@ const ModalStorage = ({active, setActive, items, parentCallback, isLoading}) => 
                         <input 
                             type="checkbox"
                             name="SSD"
-                            onChange={() => handleFilterButtonClick("HDD")} 
+                            onChange={() => handleFilterButtonClick("SSD")} 
                         />
                         <label for="SSD">SSD</label>
                     </div>

@@ -61,20 +61,21 @@ async function get_data(num_cols, cat_cols, component, data, base_query){
   for (var f in data){
     if(data[f]){
       if(num_cols.includes(f)){
-        query=query+' AND '+f+'>'+data[f][0]+' AND '+f+'<'+data[f][1]
+        query=query+" AND ("+f+" BETWEEN "+data[f][0]+" AND "+data[f][1]+")"
       }
       if(cat_cols.includes(f)){
-        query=query+' AND ('+f+'='+data[f][0]
+        query=query+" AND ("+f+"."+f+"="+"'"+data[f][0]+"'"
         if(data[f].length>1){
           for(i=1;i<data[f].length;i++){
-              query=query+' OR '+f+'='+data[f][i]
+              query=query+" OR "+f+"."+f+"="+"'"+data[f][i]+"'"
           }
         }
-        query=query+')'
-        
+        query=query+")"
+  
       }
     }
   } 
+  console.log(query)
   
   all_data = await pool.query(query);
   all_data = {'Page_data' : all_data.rows} 
@@ -138,7 +139,6 @@ app.get("/", (req, res) => {
 
 app.post("/cpu", async (req,res) =>{
   data=req.body
-  console.log(data)
   category_filters=["Core_number", "Threads_number"] 
   // , "Socket"]
   num_filters=["Frequency", "TDP", "Price"]
@@ -149,7 +149,8 @@ app.post("/cpu", async (req,res) =>{
     for (var f in data){
       if(data[f]){
         if(num_filters.includes(f)){
-          query=query+' AND '+f+'>'+data[f][0]+' AND '+f+'<'+data[f][1]
+          console.log(f)
+          query=query+' AND ('+f+' BETWEEN '+data[f][0]+' AND '+data[f][1]+')'
         }
         if(category_filters.includes(f)){
           query=query+' AND ('+f+'='+data[f][0]
@@ -195,7 +196,6 @@ app.post("/cpu", async (req,res) =>{
   catch (err){
     console.error(err.message);
   }
-  console.log(data)
   
 })
 
@@ -206,20 +206,18 @@ app.post("/motherboard", async (req,res) =>{
   num_filters=["Price"]
   component='Motherboard'
   try {
-    base_query="SELECT Motherboard.id, img, Name, Chipset.Chipset, Socket.Socket, Memory_type.Memory_type, Form_factor.Form_factor, Price FROM Motherboard \
+    base_query="SELECT Motherboard.id, img, Name, Chipset.Chipset, Socket.Socket, Memory_type.Memory_type as Memory_type, Form_factor.Form_factor , Price FROM Motherboard \
     JOIN Chipset ON Chipset.id = Motherboard.Chipset \
     JOIN Socket ON Socket.id = Motherboard.Socket \
     JOIN Memory_type ON Memory_type.id = Motherboard.Memory_type \
     JOIN Form_factor ON Form_factor.id = Motherboard.Form_factor WHERE 1=1"
     
     full = await get_data(num_filters, category_filters, component, data, base_query)
-    console.log(full)
     res.json(full);
   }
   catch (err){
     console.error(err.message);
   }
-  console.log(data)
   
 })
 

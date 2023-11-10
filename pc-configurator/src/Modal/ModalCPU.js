@@ -4,32 +4,63 @@ import IronVue from '../components/IronVue';
 
 const ModalCPU = ({active, setActive, items, parentCallback, isLoading}) => {
 
-    const [selectedFilters, setSelectedFilters] = useState([]);
     const [filteredItems, setFilteredItems] = useState(items);
 
-    const handleFilterButtonClick = (selectedCategory) => {
-        if (selectedFilters.includes(selectedCategory)) {
-          let filters = selectedFilters.filter((el) => el !== selectedCategory);
-          setSelectedFilters(filters);
+    const [selectedFiltersSocket, setSelectedFiltersSocket] = useState([]);
+    const [selectedFiltersCores, setSelectedFiltersCores] = useState([]);
+    // const [selectedFiltersMemory, setSelectedFiltersMemory] = useState([]);
+    // const [selectedFiltersChip, setSelectedFiltersChip] = useState([]);
+
+    async function getCpu() {
+        const response = await fetch(
+          'http://localhost:8080/cpu',
+          {
+            method: 'POST',
+            headers:{
+              "Content-Type":'application/json'
+            },
+            body: JSON.stringify({
+              "Price": [1000,30000000],
+              "Socket": selectedFiltersSocket.length !== 0 ? selectedFiltersSocket : "",
+              "Core_number": selectedFiltersCores.length !== 0 ? selectedFiltersCores : "",
+            })
+    
+          }
+        )
+        const jsonData = await response.json()
+        return jsonData.Page_data
+    }
+
+    useEffect(() => {
+        // Внутри этой функции вы можете вызвать вашу асинхронную функцию
+        async function fetchData() {
+          try {
+            const response = await getCpu();
+            setFilteredItems(response); // Устанавливаем полученные данные в состояние
+          } catch (error) {
+            console.error('Ошибка при загрузке данных:', error);
+          }
+        }
+    
+        fetchData();
+    }, [selectedFiltersSocket, selectedFiltersCores, isLoading]); 
+
+    const handleFilterButtonClickCores = (selectedCategory) => {
+        if (selectedFiltersCores.includes(selectedCategory)) {
+          let filters = selectedFiltersCores.filter((el) => el !== selectedCategory);
+          setSelectedFiltersCores(filters);
         } else {
-          setSelectedFilters([...selectedFilters, selectedCategory]);
+          setSelectedFiltersCores([...selectedFiltersCores, selectedCategory]);
         }
     };
-  
-    useEffect(() => {
-      filterItems();
-    }, [selectedFilters, isLoading]);
-  
-    const filterItems = () => {
-      if (selectedFilters.length > 0) {
-        let tempItems = selectedFilters.map((selectedCategory) => {
-          let temp = items.filter((item) => item.socket === selectedCategory || item.core_number ===  selectedCategory);
-          return temp;
-        });
-        setFilteredItems(tempItems.flat());
-      } else if (!isLoading) {
-        setFilteredItems([...items]);
-      }
+
+    const handleFilterButtonClickSocket = (selectedCategory) => {
+        if (selectedFiltersSocket.includes(selectedCategory)) {
+          let filters = selectedFiltersSocket.filter((el) => el !== selectedCategory);
+          setSelectedFiltersSocket(filters);
+        } else {
+          setSelectedFiltersSocket([...selectedFiltersSocket, selectedCategory]);
+        }
     };
 
     return (
@@ -46,7 +77,7 @@ const ModalCPU = ({active, setActive, items, parentCallback, isLoading}) => {
                                 <input 
                                     type="checkbox"
                                     name="2"
-                                    onChange={() => handleFilterButtonClick(2)}
+                                    onChange={() => handleFilterButtonClickCores(2)}
                                 />
                                 <label for="2">2</label>
                             </div>
@@ -54,7 +85,7 @@ const ModalCPU = ({active, setActive, items, parentCallback, isLoading}) => {
                                 <input 
                                     type="checkbox"
                                     name="4"
-                                    onChange={() => handleFilterButtonClick(4)}
+                                    onChange={() => handleFilterButtonClickCores(4)}
                                 />
                                 <label for="4">4</label>
                             </div>
@@ -62,7 +93,7 @@ const ModalCPU = ({active, setActive, items, parentCallback, isLoading}) => {
                                 <input 
                                     type="checkbox"
                                     name="6"
-                                    onChange={() => handleFilterButtonClick(6)}
+                                    onChange={() => handleFilterButtonClickCores(6)}
                                 />
                                 <label for="6">6</label>
                             </div>
@@ -70,7 +101,7 @@ const ModalCPU = ({active, setActive, items, parentCallback, isLoading}) => {
                                 <input 
                                     type="checkbox"
                                     name="8"
-                                    onChange={() => handleFilterButtonClick(8)}
+                                    onChange={() => handleFilterButtonClickCores(8)}
                                 />
                                 <label for="8">8</label>
                             </div>
@@ -78,7 +109,7 @@ const ModalCPU = ({active, setActive, items, parentCallback, isLoading}) => {
                                 <input 
                                     type="checkbox"
                                     name="10"
-                                    onChange={() => handleFilterButtonClick(10)}
+                                    onChange={() => handleFilterButtonClickCores(10)}
                                 />
                                 <label for="10">10</label>
                             </div>
@@ -86,7 +117,7 @@ const ModalCPU = ({active, setActive, items, parentCallback, isLoading}) => {
                                 <input 
                                     type="checkbox"
                                     name="12"
-                                    onChange={() => handleFilterButtonClick(12)}
+                                    onChange={() => handleFilterButtonClickCores(12)}
                                 />
                                 <label for="12">12</label>
                             </div>
@@ -94,7 +125,7 @@ const ModalCPU = ({active, setActive, items, parentCallback, isLoading}) => {
                                 <input 
                                     type="checkbox"
                                     name="16"
-                                    onChange={() => handleFilterButtonClick(16)}
+                                    onChange={() => handleFilterButtonClickCores(16)}
                                 />
                                 <label for="16">16</label>
                             </div>
@@ -102,7 +133,7 @@ const ModalCPU = ({active, setActive, items, parentCallback, isLoading}) => {
                                 <input 
                                     type="checkbox"
                                     name="24"
-                                    onChange={() => handleFilterButtonClick(24)}
+                                    onChange={() => handleFilterButtonClickCores(24)}
                                 />
                                 <label for="24">24</label>
                             </div>
@@ -113,7 +144,7 @@ const ModalCPU = ({active, setActive, items, parentCallback, isLoading}) => {
                                 <input 
                                     type="checkbox"
                                     name="LGA1700"
-                                    onChange={() => handleFilterButtonClick("LGA1700")}
+                                    onChange={() => handleFilterButtonClickSocket("LGA1700")}
                                 />
                                 <label for="LGA1700">LGA1700</label>
                             </div>
@@ -121,7 +152,7 @@ const ModalCPU = ({active, setActive, items, parentCallback, isLoading}) => {
                                 <input 
                                     type="checkbox"
                                     name="LGA1151"
-                                    onChange={() => handleFilterButtonClick("LGA1151")}
+                                    onChange={() => handleFilterButtonClickSocket("LGA1151")}
                                 />
                                 <label for="LGA1151">LGA1151</label>
                             </div>
@@ -129,7 +160,7 @@ const ModalCPU = ({active, setActive, items, parentCallback, isLoading}) => {
                                 <input 
                                     type="checkbox"
                                     name="LGA1200"
-                                    onChange={() => handleFilterButtonClick("LGA1200")}
+                                    onChange={() => handleFilterButtonClickSocket("LGA1200")}
                                 />
                                 <label for="LGA1200">LGA1200</label>
                             </div>
@@ -137,7 +168,7 @@ const ModalCPU = ({active, setActive, items, parentCallback, isLoading}) => {
                                 <input 
                                     type="checkbox"
                                     name="AM4"
-                                    onChange={() => handleFilterButtonClick("AM4")}
+                                    onChange={() => handleFilterButtonClickSocket("AM4")}
                                 />
                                 <label for="AM4">AM4</label>
                             </div>
@@ -145,7 +176,7 @@ const ModalCPU = ({active, setActive, items, parentCallback, isLoading}) => {
                                 <input 
                                     type="checkbox"
                                     name="AM3+"
-                                    onChange={() => handleFilterButtonClick("AM3+")}
+                                    onChange={() => handleFilterButtonClickSocket("AM3+")}
                                 />
                                 <label for="AM3+">AM3+</label>
                             </div>
@@ -153,7 +184,7 @@ const ModalCPU = ({active, setActive, items, parentCallback, isLoading}) => {
                                 <input 
                                     type="checkbox"
                                     name="AM5"
-                                    onChange={() => handleFilterButtonClick("AM5")}
+                                    onChange={() => handleFilterButtonClickSocket("AM5")}
                                 />
                                 <label for="AM5">AM5</label>
                             </div>
