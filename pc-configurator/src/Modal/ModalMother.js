@@ -1,10 +1,15 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useLayoutEffect } from 'react';
 import "./modalMother.css"
 import IronVue from '../components/IronVue';
 
 const ModalMother = ({active, setActive, items, parentCallback, isLoading}) => {
 
+
+    const [check, setCheck] = useState(0);
     const [filteredItems, setFilteredItems] = useState(items);
+    // console.log(items)
+    const [minPrice, setMinPrice] = useState(0)
+    const [maxPrice, setMaxPrice] = useState(300000)
 
     const [selectedFiltersSocket, setSelectedFiltersSocket] = useState([]);
     const [selectedFiltersForm, setSelectedFiltersForm] = useState([]);
@@ -20,7 +25,7 @@ const ModalMother = ({active, setActive, items, parentCallback, isLoading}) => {
               "Content-Type":'application/json'
             },
             body: JSON.stringify({
-              "Price": [0,300000],
+              "Price": [Number(minPrice),Number(maxPrice)],
               "Chipset": selectedFiltersChip.length !== 0 ? selectedFiltersChip : "",
               "Memory_type": selectedFiltersMemory.length !== 0 ? selectedFiltersMemory : "",
               "Socket": selectedFiltersSocket.length !== 0 ? selectedFiltersSocket : "",
@@ -34,20 +39,36 @@ const ModalMother = ({active, setActive, items, parentCallback, isLoading}) => {
         return jsonData.Page_data
       }
 
-    useEffect(() => {
+      useEffect(() => {
         // Внутри этой функции вы можете вызвать вашу асинхронную функцию
+        if (check != 10){
         async function fetchData() {
           try {
-            const responseMother = await getMotherBoard();
-            setFilteredItems(responseMother); // Устанавливаем полученные данные в состояние
+            const response123 = await getMotherBoard();
+            setFilteredItems(response123); // Устанавливаем полученные данные в состояние
           } catch (error) {
             console.error('Ошибка при загрузке данных:', error);
           }
         }
-    
+        fetchData();
+        setCheck(check+1)
+        }
+        // console.log(filteredItems)
+    }, [filteredItems]); 
+
+    useEffect(() => {
+        // Внутри этой функции вы можете вызвать вашу асинхронную функцию
+        async function fetchData() {
+          try {
+            const response123 = await getMotherBoard();
+            setFilteredItems(response123); // Устанавливаем полученные данные в состояние
+          } catch (error) {
+            console.error('Ошибка при загрузке данных:', error);
+          }
+        }
         fetchData();
         // console.log(filteredItems)
-    }, [selectedFiltersSocket, selectedFiltersForm, selectedFiltersMemory, selectedFiltersChip, isLoading]); 
+    }, [selectedFiltersSocket, selectedFiltersForm, selectedFiltersMemory, selectedFiltersChip, minPrice, maxPrice, isLoading]); 
 
     const handleFilterButtonClickChip = (selectedCategory) => {
         if (selectedFiltersChip.includes(selectedCategory)) {
@@ -88,7 +109,19 @@ const ModalMother = ({active, setActive, items, parentCallback, isLoading}) => {
     return (
         <div className={active ? "modal active" : "modal"} onClick={() => setActive(false)}>
             <div className={active ? "modal__content active" : "modal__content"} onClick={e => e.stopPropagation()}>
-                <div className="buttons-container scroll">  
+                <div className="buttons-container scroll">
+                    <div>
+                      <input 
+                        type="number"
+                        value={minPrice}
+                        onChange={e => setMinPrice(e.target.value)}
+                      />
+                      <input 
+                        type="number"
+                        value={maxPrice}
+                        onChange={e => setMaxPrice(e.target.value)}
+                      />      
+                    </div>     
                         <div>
                             <p>Чипсет</p>
                             <div>

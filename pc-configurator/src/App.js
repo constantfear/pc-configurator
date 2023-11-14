@@ -48,10 +48,7 @@ function App() {
           "Content-Type":'application/json'
         },
         body: JSON.stringify({
-          "Price": [10000,30000000],
-          "Frequency": [],
-          "Core_number": [],
-          "TDP": ""
+          "Price": [18000,30000000],
         })
 
       }
@@ -69,8 +66,8 @@ function App() {
           "Content-Type":'application/json'
         },
         body: JSON.stringify({
-          "Form_factor": ["microATX","ATX"],
-          "Memory_type": []
+          "Form_factor": "",
+          "Memory_type": ""
         })
         
         
@@ -89,7 +86,7 @@ function App() {
           "Content-Type":'application/json'
         },
         body: JSON.stringify({
-          
+          "Cooling_system_type": ""
         })
         
       }
@@ -319,7 +316,7 @@ function App() {
           "Content-Type":'application/json'
         },
         body: JSON.stringify({
-          "Component":"Videocard"
+          "Component":"Disk"
         })
 
       }

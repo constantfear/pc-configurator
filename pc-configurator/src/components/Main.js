@@ -1,5 +1,5 @@
 import "../styles.css";
-import React, { useState, useEffect, Suspense } from "react";
+import React, { useState, useEffect, Suspense, useLayoutEffect } from "react";
 // import ModalCase from "../Modal/ModalCase";
 // import ModalMother from "../Modal/ModalMother";
 // import ModalRAM from "../Modal/ModalRAM";
@@ -234,7 +234,7 @@ const Main = () => {
     
   }
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     // Внутри этой функции вы можете вызвать вашу асинхронную функцию
     async function fetchData() {
       try {
@@ -273,6 +273,7 @@ const Main = () => {
         setCountStorage(Count7[0].amount)
 
         setIsLoading(false);
+        // setIsLoadingRam(false);
 
       } catch (error) {
         console.error('Ошибка при загрузке данных:', error);
@@ -298,7 +299,14 @@ const Main = () => {
               <p>Корпус</p>
             </div>
             <div className="rightAdd">
-              <p>{countBody} товаров</p>
+              {
+                pickedCase != "" ? 
+                <div className="pickedIron">
+                  <img src={pickedCase.img} alt="case" className="pickedImg"/>
+                  <p>{pickedCase.name}</p>
+                </div>:
+                <p>{countBody} товаров</p>
+              }
               <button className="componentAdd" onClick={() => setModalCaseActive(true)}>Добавить</button>
             </div>
           </div>
@@ -309,7 +317,14 @@ const Main = () => {
             </div>
             <div>
               <div className="rightAdd">
+                {
+                pickedMother != "" ? 
+                <div className="pickedIron">
+                  <img src={pickedMother.img} alt="case" className="pickedImg"/>
+                  <p>{pickedMother.name}</p>
+                </div>:
                 <p>{countMother} товаров</p>
+                }
                 <button className="componentAdd" onClick={() => setModalMotherActive(true)}>Добавить</button>
               </div>
             </div>
@@ -320,7 +335,14 @@ const Main = () => {
               <p>Система охлаждения</p>
             </div>
             <div className="rightAdd">
-              <p>{countCool} товаров</p>
+                {
+                pickedCool != "" ? 
+                <div className="pickedIron">
+                  <img src={pickedCool.img} alt="case" className="pickedImg"/>
+                  <p>{pickedCool.name}</p>
+                </div>:
+                <p>{countCool} товаров</p>
+                }
               <button className="componentAdd" onClick={() => setModalCoolActive(true)}>Добавить</button>
             </div>
           </div>
@@ -330,7 +352,14 @@ const Main = () => {
               <p>Оперативная память</p>
             </div>
             <div className="rightAdd">
-              <p>{countRAM} товаров</p>
+                {
+                pickedRAM != "" ? 
+                <div className="pickedIron">
+                  <img src={pickedRAM.img} alt="case" className="pickedImg ram"/>
+                  <p>{pickedRAM.name}</p>
+                </div>:
+                <p>{countRAM} товаров</p>
+                }
               <button className="componentAdd" onClick={() => setModalRAMActive(true)}>Добавить</button>
             </div>
           </div>
@@ -340,7 +369,14 @@ const Main = () => {
               <p>Видеокарта</p>
             </div>
             <div className="rightAdd">
-              <p>{countGPU} товаров</p>
+                {
+                pickedGPU != "" ? 
+                <div className="pickedIron">
+                  <img src={pickedGPU.img} alt="case" className="pickedImg"/>
+                  <p>{pickedGPU.name}</p>
+                </div>:
+                <p>{countGPU} товаров</p>
+                }
               <button className="componentAdd" onClick={() => setModalGPUActive(true)}>Добавить</button>
             </div>
           </div>
@@ -350,7 +386,14 @@ const Main = () => {
               <p>Хранение данных</p>
             </div>
             <div className="rightAdd">
-              <p>{countStorage} товаров</p>
+                {
+                pickedStorage != "" ? 
+                <div className="pickedIron">
+                  <img src={pickedStorage.img} alt="case" className="pickedImg"/>
+                  <p>{pickedStorage.name}</p>
+                </div>:
+                <p>{countStorage} товаров</p>
+                }
               <button className="componentAdd" onClick={() => setModalStorageActive(true)}>Добавить</button>
             </div>
           </div>
@@ -360,7 +403,14 @@ const Main = () => {
               <p>Блок питания</p>
             </div>
             <div className="rightAdd">
-              <p>{countPower} товаров</p>
+                {
+                pickedPower != "" ? 
+                <div className="pickedIron">
+                  <img src={pickedPower.img} alt="case" className="pickedImg"/>
+                  <p>{pickedPower.name}</p>
+                </div>:
+                <p>{countPower} товаров</p>
+                }
               <button className="componentAdd" onClick={() => setModalPowerActive(true)}>Добавить</button>
             </div>
           </div>
@@ -370,14 +420,21 @@ const Main = () => {
               <p>Процессор</p>
             </div>
             <div className="rightAdd">
-              <p>{countCPU} товаров</p>
+                {
+                pickedCPU != "" ? 
+                <div className="pickedIron">
+                  <img src={pickedCPU.img} alt="case" className="pickedImg"/>
+                  <p>{pickedCPU.name}</p>
+                </div>:
+                <p>{countCPU} товаров</p>
+                }
               <button className="componentAdd" onClick={() => setModalCPUActive(true)}>Добавить</button>
             </div>
           </div>
         </div>
         <div className="rightConteiners">
-          <input type="text" placeholder="Введите название сборки" value={pickedName} onChange={e => setName(e.target.value)}/>
-          <button onClick={() => setConfig(pickedName, pickedCase, pickedMother, pickedCPU, pickedCool, pickedRAM, pickedGPU, pickedStorage, pickedPower)}>Сохранить сборку</button>
+          <input type="text" placeholder="Введите название сборки" value={pickedName} onChange={e => setName(e.target.value)} className="inputName"/>
+          <button className="btnName" onClick={() => setConfig(pickedName, pickedCase, pickedMother, pickedCPU, pickedCool, pickedRAM, pickedGPU, pickedStorage, pickedPower)}>Сохранить сборку</button>
         </div>
         <Suspense fallback={<div>loading...</div>}>
         <ModalCase active={modalCaseActive} setActive={setModalCaseActive} items={dataBody} state={pickedCase} isLoading={isLoading} 

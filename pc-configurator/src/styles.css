@@ -60,6 +60,7 @@ html {
     justify-content: space-between;
     align-items: center;
     width: 1100px;
+    max-height: 110px;
     
 }
 
@@ -106,4 +107,45 @@ html {
     padding: 24px;
     width: 600px;
     font-size: 20px;
+    /* border: 2px solid */
+}
+
+.pickedIron {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    /* border: 2px solid; */
+}
+
+.pickedImg {
+    height: 100px;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.pickedImg.ram {
+    height: 60px;
+    width: 100px;
+}
+
+.rightConteiners {
+    margin-top: 40px;
+    display: flex;
+    flex-direction: column;
+    width: 1000px;
+}
+
+.btnName {
+    height: 55px;
+    background-color: white;
+    transition: 0.5s;
+}
+
+.btnName:hover {
+    background-color: #cde8f7;
+    transition: 0.5s;
+}
+
+.inputName {
+    height: 55px;
 }

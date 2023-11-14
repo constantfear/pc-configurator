@@ -4,12 +4,14 @@ import IronVue from '../components/IronVue';
 
 const ModalCPU = ({active, setActive, items, parentCallback, isLoading}) => {
 
+    const [check, setCheck] = useState(0);
     const [filteredItems, setFilteredItems] = useState(items);
+
+    const [minPrice, setMinPrice] = useState(0)
+    const [maxPrice, setMaxPrice] = useState(300000)
 
     const [selectedFiltersSocket, setSelectedFiltersSocket] = useState([]);
     const [selectedFiltersCores, setSelectedFiltersCores] = useState([]);
-    // const [selectedFiltersMemory, setSelectedFiltersMemory] = useState([]);
-    // const [selectedFiltersChip, setSelectedFiltersChip] = useState([]);
 
     async function getCpu() {
         const response = await fetch(
@@ -20,7 +22,7 @@ const ModalCPU = ({active, setActive, items, parentCallback, isLoading}) => {
               "Content-Type":'application/json'
             },
             body: JSON.stringify({
-              "Price": [1000,30000000],
+              "Price": [Number(minPrice),Number(maxPrice)],
               "Socket": selectedFiltersSocket.length !== 0 ? selectedFiltersSocket : "",
               "Core_number": selectedFiltersCores.length !== 0 ? selectedFiltersCores : "",
             })
@@ -33,17 +35,34 @@ const ModalCPU = ({active, setActive, items, parentCallback, isLoading}) => {
 
     useEffect(() => {
         // Внутри этой функции вы можете вызвать вашу асинхронную функцию
+        if (check != 5){
         async function fetchData() {
           try {
-            const response = await getCpu();
-            setFilteredItems(response); // Устанавливаем полученные данные в состояние
+            const response123 = await getCpu();
+            setFilteredItems(response123); // Устанавливаем полученные данные в состояние
+          } catch (error) {
+            console.error('Ошибка при загрузке данных:', error);
+          }
+        }
+        fetchData();
+        setCheck(check+1)
+        }
+        // console.log(filteredItems)
+    }, [filteredItems]); 
+
+    useEffect(() => {
+        // Внутри этой функции вы можете вызвать вашу асинхронную функцию
+        async function fetchData() {
+          try {
+            const response1 = await getCpu();
+            setFilteredItems(response1); // Устанавливаем полученные данные в состояние
           } catch (error) {
             console.error('Ошибка при загрузке данных:', error);
           }
         }
     
         fetchData();
-    }, [selectedFiltersSocket, selectedFiltersCores, isLoading]); 
+    }, [selectedFiltersSocket, selectedFiltersCores, minPrice, maxPrice, isLoading]); 
 
     const handleFilterButtonClickCores = (selectedCategory) => {
         if (selectedFiltersCores.includes(selectedCategory)) {
@@ -67,10 +86,18 @@ const ModalCPU = ({active, setActive, items, parentCallback, isLoading}) => {
         <div className={active ? "modal active" : "modal"} onClick={() => setActive(false)}>
             <div className={active ? "modal__content active" : "modal__content"} onClick={e => e.stopPropagation()}>
                 <form class="filtrs scroll">
-                        <div>
-                            <input type="text" />
-                            <input type="text" />
-                        </div>
+                    <div>
+                      <input 
+                        type="number"
+                        value={minPrice}
+                        onChange={e => setMinPrice(e.target.value)}
+                      />
+                      <input 
+                        type="number"
+                        value={maxPrice}
+                        onChange={e => setMaxPrice(e.target.value)}
+                      />      
+                    </div>  
                         <div>
                             <p>Количество ядер</p>
                             <div>
