@@ -1,13 +1,5 @@
 import "../styles.css";
 import React, { useState, useEffect, Suspense, useLayoutEffect } from "react";
-// import ModalCase from "../Modal/ModalCase";
-// import ModalMother from "../Modal/ModalMother";
-// import ModalRAM from "../Modal/ModalRAM";
-// import ModalGPU from "../Modal/ModalGPU";
-// import ModalStorage from "../Modal/ModalStorage";
-// import ModalPower from "../Modal/ModalPower";
-// import ModalCPU from "../Modal/ModalCPU";
-// import ModalCool from "../Modal/ModalCool";
 
 const ModalCase = React.lazy(() => import ("../Modal/ModalCase"))
 const ModalMother = React.lazy(() => import ("../Modal/ModalMother"))
@@ -17,6 +9,8 @@ const ModalStorage = React.lazy(() => import ("../Modal/ModalStorage"))
 const ModalPower = React.lazy(() => import ("../Modal/ModalPower"))
 const ModalCPU = React.lazy(() => import ("../Modal/ModalCPU"))
 const ModalCool = React.lazy(() => import ("../Modal/ModalCool"))
+const ModalBad = React.lazy(() => import ("../Modal/ModalBad"))
+const ModalGood = React.lazy(() => import ("../Modal/ModalGood"))
 
 const Main = () => {
 
@@ -49,6 +43,43 @@ const Main = () => {
   const [pickedName, setName] = useState("Сборка");
 
   const [isLoading, setIsLoading] = useState(true);
+
+  const [modalBad, setModalBad] = useState(false)
+  const [modalGood, setModalGood] = useState(false)
+
+  function setConfigCheck(){
+    console.log(pickedCase)
+    console.log(pickedMother)
+    console.log(pickedCool)
+    console.log(pickedRAM)
+    console.log(pickedGPU)
+    console.log(pickedStorage)
+    console.log(pickedPower)
+    console.log(pickedCPU)
+    if (pickedCase === "" || pickedMother === "" || pickedCool === "" || pickedRAM === "" || pickedGPU === "" || pickedStorage === ""
+    || pickedPower === "" || pickedCPU === ""){
+      setModalBad(true)
+      console.log(0)
+    } else if (!pickedMother.socket === pickedCPU.socket ){
+      setModalBad(true)
+      console.log(1)
+    } else if (!pickedCase.form_factors.includes(pickedMother.form_factor)){
+      setModalBad(true)
+      console.log(2)
+    } else if (!(pickedMother.memory_type === pickedRAM.memory_type)){
+      setModalBad(true)
+      console.log(3)
+    } else if (!pickedCool.string_agg.includes(pickedCPU.socket)){
+      setModalBad(true)
+      console.log(4)
+    } else if (!(Number(pickedCPU.tdp) + Number(pickedGPU.power) < Number(pickedPower.power) + 100)){
+      setModalBad(true)
+      console.log(5)
+    } else {
+      setConfig(pickedName, pickedCase, pickedMother, pickedCPU, pickedCool, pickedRAM, pickedGPU, pickedStorage, pickedPower)
+      setModalGood(true)
+    }
+  }
 
   async function setConfig(name, body, mother, cpu, cool, ram, gpu, storage, power) {
     const fullPrice = cpu.price + mother.price + body.price + cool.price + ram.price + gpu.price + storage.price + power.price
@@ -434,7 +465,8 @@ const Main = () => {
         </div>
         <div className="rightConteiners">
           <input type="text" placeholder="Введите название сборки" value={pickedName} onChange={e => setName(e.target.value)} className="inputName"/>
-          <button className="btnName" onClick={() => setConfig(pickedName, pickedCase, pickedMother, pickedCPU, pickedCool, pickedRAM, pickedGPU, pickedStorage, pickedPower)}>Сохранить сборку</button>
+          {/* <button className="btnName" onClick={() => setConfig(pickedName, pickedCase, pickedMother, pickedCPU, pickedCool, pickedRAM, pickedGPU, pickedStorage, pickedPower)}>Сохранить сборку</button> */}
+          <button className="btnName" onClick={() => setConfigCheck()}>Сохранить сборку</button>
         </div>
         <Suspense fallback={<div>loading...</div>}>
         <ModalCase active={modalCaseActive} setActive={setModalCaseActive} items={dataBody} state={pickedCase} isLoading={isLoading} 
@@ -461,6 +493,8 @@ const Main = () => {
         <ModalCPU active={modalCPUActive} setActive={setModalCPUActive} items={dataCPU} state={pickedCPU} isLoading={isLoading}
         parentCallback={setConfigCPU} className="modalCase">
         </ModalCPU>
+        <ModalBad active={modalBad} setActive={setModalBad}/>
+        <ModalGood active={modalGood} setActive={setModalGood}/>
         </Suspense>
       </main>
     )

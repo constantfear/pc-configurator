@@ -50,3 +50,15 @@
     overflow-y: scroll; /* Включаем вертикальную прокрутку */
     overflow-x:hidden;
 }
+
+.filters-scroll {
+    height: 450px; /* Высота блока */
+    overflow-y: scroll; /* Включаем вертикальную прокрутку */
+    overflow-x:hidden;
+    min-width: 175px;
+    max-width: 175px;
+}
+
+.price {
+    width: 150px;
+}

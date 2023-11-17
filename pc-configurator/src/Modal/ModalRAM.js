@@ -77,6 +77,7 @@ const ModalRAM = ({active, setActive, items, isLoading, parentCallback}) => {
             <div className={active ? "modal__content active" : "modal__content"} onClick={e => e.stopPropagation()}>
                 <div className="buttons-container">
                     <div>
+                      <p>Цена</p>
                       <input 
                         type="number"
                         value={minPrice}

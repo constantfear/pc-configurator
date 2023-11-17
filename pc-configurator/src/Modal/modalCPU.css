@@ -50,3 +50,16 @@
     overflow-y: scroll; /* Включаем вертикальную прокрутку */
     overflow-x:hidden;
 }
+
+.price {
+    display: flex;
+    flex-direction: column;
+    width: 150px;
+}
+
+.filters-scroll {
+    height: 450px; /* Высота блока */
+    overflow-y: scroll; /* Включаем вертикальную прокрутку */
+    overflow-x:hidden;
+    min-width: 175px;
+}

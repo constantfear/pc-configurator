@@ -85,8 +85,9 @@ const ModalCPU = ({active, setActive, items, parentCallback, isLoading}) => {
     return (
         <div className={active ? "modal active" : "modal"} onClick={() => setActive(false)}>
             <div className={active ? "modal__content active" : "modal__content"} onClick={e => e.stopPropagation()}>
-                <form class="filtrs scroll">
-                    <div>
+                <form class="filters-scroll">
+                    <p>Цена</p>
+                    <div className='price'>
                       <input 
                         type="number"
                         value={minPrice}

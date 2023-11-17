@@ -44,6 +44,7 @@ const ModalCase = ({active, setActive, items, parentCallback}) => {
             <div className={active ? "modal__content active" : "modal__content"} onClick={e => e.stopPropagation()}>
                 <form className='filtrs'>
                     <div>
+                      <p>Цена</p>
                       <input 
                         type="number"
                         value={minPrice}

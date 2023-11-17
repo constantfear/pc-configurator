@@ -49,4 +49,5 @@
     height: 450px; /* Высота блока */
     overflow-y: scroll; /* Включаем вертикальную прокрутку */
     overflow-x:hidden;
+    min-width: 600px;
 }

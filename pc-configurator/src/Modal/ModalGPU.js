@@ -76,6 +76,7 @@ const ModalGPU = ({active, setActive, items, parentCallback, isLoading}) => {
             <div className={active ? "modal__content active" : "modal__content"} onClick={e => e.stopPropagation()}>
                 <div className="buttons-container">
                     <div>
+                      <p>Цена</p>
                       <input 
                         type="number"
                         value={minPrice}

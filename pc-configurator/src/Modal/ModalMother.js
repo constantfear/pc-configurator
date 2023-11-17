@@ -109,19 +109,20 @@ const ModalMother = ({active, setActive, items, parentCallback, isLoading}) => {
     return (
         <div className={active ? "modal active" : "modal"} onClick={() => setActive(false)}>
             <div className={active ? "modal__content active" : "modal__content"} onClick={e => e.stopPropagation()}>
-                <div className="buttons-container scroll">
-                    <div>
-                      <input 
-                        type="number"
-                        value={minPrice}
-                        onChange={e => setMinPrice(e.target.value)}
-                      />
-                      <input 
-                        type="number"
-                        value={maxPrice}
-                        onChange={e => setMaxPrice(e.target.value)}
-                      />      
-                    </div>     
+                    <form className='filters-scroll'>
+                        <p>Цена</p>
+                        <div className='price'>
+                            <input 
+                                type="number"
+                                value={minPrice}
+                                onChange={e => setMinPrice(e.target.value)}
+                            />
+                            <input 
+                                type="number"
+                                value={maxPrice}
+                                onChange={e => setMaxPrice(e.target.value)}
+                            />      
+                        </div>     
                         <div>
                             <p>Чипсет</p>
                             <div>
@@ -367,7 +368,7 @@ const ModalMother = ({active, setActive, items, parentCallback, isLoading}) => {
                                 <label for="AM5">AM5</label>
                             </div>
                         </div>
-                </div>
+                    </form>
                 <div>
                     <div className='scroll'>
                         <IronVue items={filteredItems} parentCallback={parentCallback}/>
