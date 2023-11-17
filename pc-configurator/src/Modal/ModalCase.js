@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import "./modalCase.css"
-import IronVue from '../components/IronVue';
+import VueCase from '../ironVueComponents/VueCase';
 
 const ModalCase = ({active, setActive, items, parentCallback}) => {
 
@@ -40,8 +40,8 @@ const ModalCase = ({active, setActive, items, parentCallback}) => {
     },[minPrice, maxPrice])
 
     return (
-        <div className={active ? "modal active" : "modal"} onClick={() => setActive(false)}>
-            <div className={active ? "modal__content active" : "modal__content"} onClick={e => e.stopPropagation()}>
+        <div className={active ? "modalc active" : "modalc"} onClick={() => setActive(false)}>
+            <div className={active ? "modalc__content active" : "modalc__content"} onClick={e => e.stopPropagation()}>
                 <form className='filtrs'>
                     <div>
                       <p>Цена</p>
@@ -58,7 +58,7 @@ const ModalCase = ({active, setActive, items, parentCallback}) => {
                     </div>  
                 </form>
                 <div className='scroll'>
-                    <IronVue items={filteredItems} parentCallback={parentCallback}/>
+                    <VueCase items={filteredItems} parentCallback={parentCallback}/>
                 </div>
             </div>
         </div>

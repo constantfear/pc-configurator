@@ -47,6 +47,8 @@ const Main = () => {
   const [modalBad, setModalBad] = useState(false)
   const [modalGood, setModalGood] = useState(false)
 
+  const [modalBadContent, setModalBadContent] = useState("Не выбраны все комплектующие")
+
   function setConfigCheck(){
     console.log(pickedCase)
     console.log(pickedMother)
@@ -60,21 +62,26 @@ const Main = () => {
     || pickedPower === "" || pickedCPU === ""){
       setModalBad(true)
       console.log(0)
-    } else if (!pickedMother.socket === pickedCPU.socket ){
+    } else if (!(pickedMother.socket === pickedCPU.socket)){
       setModalBad(true)
       console.log(1)
+      setModalBadContent("Сокеты материнской платы и процессора не совпадают")
     } else if (!pickedCase.form_factors.includes(pickedMother.form_factor)){
       setModalBad(true)
       console.log(2)
+      setModalBadContent("Форм-факторы материнской платы и корпуса не совпадают")
     } else if (!(pickedMother.memory_type === pickedRAM.memory_type)){
       setModalBad(true)
       console.log(3)
+      setModalBadContent("Маетринская плата не поддерживает этот тип памяти")
     } else if (!pickedCool.string_agg.includes(pickedCPU.socket)){
       setModalBad(true)
       console.log(4)
+      setModalBadContent("Сокеты материнской платы и системы охлаждения")
     } else if (!(Number(pickedCPU.tdp) + Number(pickedGPU.power) < Number(pickedPower.power) + 100)){
       setModalBad(true)
       console.log(5)
+      setModalBadContent("энергопотребление сборки превышает мощность блока питания")
     } else {
       setConfig(pickedName, pickedCase, pickedMother, pickedCPU, pickedCool, pickedRAM, pickedGPU, pickedStorage, pickedPower)
       setModalGood(true)
@@ -493,7 +500,7 @@ const Main = () => {
         <ModalCPU active={modalCPUActive} setActive={setModalCPUActive} items={dataCPU} state={pickedCPU} isLoading={isLoading}
         parentCallback={setConfigCPU} className="modalCase">
         </ModalCPU>
-        <ModalBad active={modalBad} setActive={setModalBad}/>
+        <ModalBad active={modalBad} setActive={setModalBad} badText={modalBadContent}/>
         <ModalGood active={modalGood} setActive={setModalGood}/>
         </Suspense>
       </main>

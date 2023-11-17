@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import "./modalCool.css"
-import IronVue from '../components/IronVue';
+import VueCool from '../ironVueComponents/VueCool';
 
 const ModalCool = ({active, setActive, items, isLoading, parentCallback}) => {
 
@@ -107,7 +107,7 @@ const ModalCool = ({active, setActive, items, isLoading, parentCallback}) => {
                     </div>
                 </div>
                 <div className='scroll'>
-                    <IronVue items={filteredItems} parentCallback={parentCallback}/>
+                    <VueCool items={filteredItems} parentCallback={parentCallback} itemType={"Cool"}/>
                 </div>
             </div>
         </div>

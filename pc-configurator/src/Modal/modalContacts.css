@@ -1,4 +1,4 @@
-.modal {
+.modalik {
     height: 100vh;
     width: 100vmax;
     background-color: rgba(0, 0, 0, 0.4);
@@ -11,14 +11,15 @@
     opacity: 0;
     pointer-events: none;
     transition: 0.5s;
+    flex-direction: column;
 }
 
-.modal.active {
+.modalik.active {
     opacity: 1;
     pointer-events: all;
 }
 
-.modal__content {
+.modalik__content {
     padding: 20px;
     border-radius: 12px;
     background-color: white;
@@ -27,7 +28,7 @@
     width: 24vmax;
 }
 
-.modal__content.active {
+.modalik__content.active {
     transform: scale(1);
 }
 
@@ -38,8 +39,20 @@
     display: flex;
     flex-direction: column;
     text-align: center;
+    height: 200px;
 }
 
 .sostav {
     padding-bottom: 10px;
+}
+
+.git {
+    background-color: black;
+    width: 220px;
+    position: relative;
+    top: -30px;
+    color: white;
+    pointer-events: all;
+    border-radius: 100px;
+    text-align: center;
 }

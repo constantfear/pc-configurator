@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useLayoutEffect } from 'react';
 import "./modalMother.css"
-import IronVue from '../components/IronVue';
+import VueMother from '../ironVueComponents/VueMother';
 
 const ModalMother = ({active, setActive, items, parentCallback, isLoading}) => {
 
@@ -371,7 +371,7 @@ const ModalMother = ({active, setActive, items, parentCallback, isLoading}) => {
                     </form>
                 <div>
                     <div className='scroll'>
-                        <IronVue items={filteredItems} parentCallback={parentCallback}/>
+                        <VueMother items={filteredItems} parentCallback={parentCallback}/>
                     </div>
                 </div>
             </div>

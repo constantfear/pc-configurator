@@ -3,8 +3,8 @@ import "./modalContacts.css"
 
 const ModalContacts = ({active, setActive}) => {
     return (
-        <div className={active ? "modal active" : "modal"} onClick={() => setActive(false)}>
-            <div className={active ? "modal__content active" : "modal__content"} onClick={e => e.stopPropagation()}>
+        <div className={active ? "modalik active" : "modalik"} onClick={() => setActive(false)}>
+            <div className={active ? "modalik__content active" : "modalik__content"} onClick={e => e.stopPropagation()}>
                 <div className="contacts">
                     <span className="sostav">Состав команды:</span>
                     <span>Титеев Рамиль</span> 
@@ -14,6 +14,9 @@ const ModalContacts = ({active, setActive}) => {
                     <span>Добровольский Иван</span>
                 </div>
             </div>
+            <a className={active ? "modalik__content active git" : "modalik__content git"} href="https://github.com/constantfear/pc-configurator" target="_blank">
+                Репазиторий на <span>Github</span>
+            </a>
         </div>
     )
 }

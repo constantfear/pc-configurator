@@ -7,6 +7,9 @@
     border-top: 2px #B3B3B3 solid;
     display: flex;
     align-items: center;
+    justify-content: space-between;
+    padding-left: 60px;
+    padding-right: 150px;
 }
 
 .iron {
@@ -21,6 +24,7 @@
 .price {
     text-align: center;
     font-family: "Play", sans-serif;
+    font-size: 20px;
 }
 
 .delete {
@@ -47,7 +51,19 @@
 }
 
 .renameBtn {
-    background-color: black;
+    margin-left: 2px;
+    background-color: white;
+    border: none;
+}
+
+.renameImg {
+    transition: 0.5s;
+}
+
+.renameImg:hover {
+    background-color: #cde8f7;
+    border-radius: 8px;
+    transition: 0.5s;
 }
 
 .leftBlock {

@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import "./modalCPU.css"
-import IronVue from '../components/IronVue';
+import VueCPU from '../ironVueComponents/VueCPU';
 
 const ModalCPU = ({active, setActive, items, parentCallback, isLoading}) => {
 
@@ -217,12 +217,9 @@ const ModalCPU = ({active, setActive, items, parentCallback, isLoading}) => {
                                 <label for="AM5">AM5</label>
                             </div>
                         </div>
-                        <div>
-                            <p>Количество потоков</p>
-                        </div>
                 </form>
                 <div className='scroll'>
-                    <IronVue items={filteredItems} parentCallback={parentCallback}/>
+                    <VueCPU items={filteredItems} parentCallback={parentCallback} itemType={"CPU"}/>
                 </div>
             </div>
         </div>

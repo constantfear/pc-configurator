@@ -1,7 +1,7 @@
 import React, {useState, Component } from 'react'
-import "./ironVue.css"
+import "./ironsVue.css"
 
-export default function IronVue({items, parentCallback}) {
+export default function VueCool({items, parentCallback}) {
 
     function handlerItem(event) {
         parentCallback(event)
@@ -16,7 +16,12 @@ export default function IronVue({items, parentCallback}) {
                     <div key={item.id} className='wrapperc'>
                         <div className='leftBlock'>                       
                             <img src={item.img} alt="" className='uglyImg'/>
-                            <h1>{item.name}</h1>
+                            <div>
+                                <h1>{item.name}</h1>
+                                <div>
+                                    <p>{item.string_agg}</p>
+                                </div>
+                            </div>
                         </div>
                         <div>
                             <h2>{item.price}</h2>

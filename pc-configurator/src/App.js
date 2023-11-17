@@ -350,7 +350,7 @@ function App() {
   //получение фильтров 
   return (
     <div className="app">
-      {<button onClick={getCpu}>Get CPU</button>}
+      {/* {<button onClick={getCpu}>Get CPU</button>}
       {<button onClick={getMotherBoard}>Get Motherboard</button>}
       {<button onClick={getBody}>Get Body</button>}
       {<button onClick={getCoolingSystem}>Get Cooling System</button>}
@@ -366,7 +366,7 @@ function App() {
       {<button onClick={configExistence}>Config Exist???</button>}
       {<button onClick={deleteConfig}>Delete Config</button>}
       {<button onClick={updateNameConfig}>Update Name Config</button>}
-      {/* {<button onClick={getFiltersInComponent}>Get Component Filters</button>} */}
+      {<button onClick={getFiltersInComponent}>Get Component Filters</button>} */}
     
 
     

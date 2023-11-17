@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import "./modalStorage.css"
-import IronVue from '../components/IronVue';
+import VueStorage from '../ironVueComponents/VueStorage';
 
 const ModalStorage = ({active, setActive, items, parentCallback, isLoading}) => {
     // console.log(items)
@@ -104,7 +104,7 @@ const ModalStorage = ({active, setActive, items, parentCallback, isLoading}) => 
                     </div>
                 </div>
                 <div className='scroll'>
-                    <IronVue items={filteredItems} parentCallback={parentCallback}/>
+                    <VueStorage items={filteredItems} parentCallback={parentCallback}/>
                 </div>
             </div>
         </div>

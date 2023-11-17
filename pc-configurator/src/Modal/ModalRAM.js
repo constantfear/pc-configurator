@@ -1,6 +1,6 @@
 import React, { useState, useEffect, Suspense } from 'react';
 import "./modalRAM.css"
-import IronVue from '../components/IronVue';
+import VueRAM from '../ironVueComponents/VueRAM';
 
 const ModalRAM = ({active, setActive, items, isLoading, parentCallback}) => {
   // console.log(items)
@@ -124,7 +124,7 @@ const ModalRAM = ({active, setActive, items, isLoading, parentCallback}) => {
                       </div>
                 </div>
                 <div className='scroll'>
-                    <IronVue items={filteredItems} parentCallback={parentCallback}/>
+                    <VueRAM items={filteredItems} parentCallback={parentCallback}/>
                 </div>
             </div>
         </div>

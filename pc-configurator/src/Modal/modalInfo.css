@@ -1,4 +1,4 @@
-.modal {
+.modalar {
     height: 100vh;
     width: 100vmax;
     background-color: rgba(0, 0, 0, 0.4);
@@ -13,25 +13,25 @@
     transition: 0.5s;
 }
 
-.modal.active {
+.modalar.active {
     opacity: 1;
     pointer-events: all;
 }
 
-.modal__content {
+.modalar__content {
     padding: 20px;
     border-radius: 12px;
     background-color: white;
     transform: scale(0.5);
     transition: 0.4s all;
-    width: 40vmax;
+    width: 50vmax;
 }
 
-.modal__content.active {
+.modalar__content.active {
     transform: scale(1);
 }
 
-.contacts {
+.info {
     font-size: 24px;
     top: 0;
     left: 0;

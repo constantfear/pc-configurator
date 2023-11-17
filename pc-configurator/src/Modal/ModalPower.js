@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import "./modalPower.css"
-import IronVue from '../components/IronVue';
+import VuePower from '../ironVueComponents/VuePower';
 
 const ModalPower = ({active, setActive, items, parentCallback, isLoading}) => {
 
@@ -116,7 +116,7 @@ const ModalPower = ({active, setActive, items, parentCallback, isLoading}) => {
                       </div>
                 </div>
                 <div className='scroll'>
-                    <IronVue items={filteredItems} parentCallback={parentCallback}/>
+                    <VuePower items={filteredItems} parentCallback={parentCallback} itemType={"Mother"}/>
                 </div>
             </div>
         </div>

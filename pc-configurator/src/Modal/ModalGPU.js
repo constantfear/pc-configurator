@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import "./modalGPU.css"
-import IronVue from '../components/IronVue';
+import VueGPU from '../ironVueComponents/VueGPU';
 
 const ModalGPU = ({active, setActive, items, parentCallback, isLoading}) => {
 
@@ -139,7 +139,7 @@ const ModalGPU = ({active, setActive, items, parentCallback, isLoading}) => {
                       </div>
                 </div>
                 <div className='scroll'>
-                    <IronVue items={filteredItems} parentCallback={parentCallback}/>
+                    <VueGPU items={filteredItems} parentCallback={parentCallback}/>
                 </div>
             </div>
         </div>

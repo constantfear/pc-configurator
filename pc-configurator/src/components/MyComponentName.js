@@ -64,7 +64,9 @@ function MyComponentName({config}) {
           onChange={e => setCompanyName(e.target.value)}
           className='rename'
         />
-        <button className='renameBtn' onClick={() => updateNameConfig(config, companyName)}></button>
+        <button className='renameBtn' onClick={() => updateNameConfig(config, companyName)}>
+          <img src="./images/rename.svg" alt="" className='renameImg'/>
+        </button>
       </div>
     </div>
   );
