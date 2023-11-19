@@ -10,6 +10,8 @@ COPY package-lock.json ./
 
 RUN npm install --silent
 RUN npm install react-scripts@5.0.1 -g
+RUN npm install react-router-dom --save
+
 
 COPY . ./
 

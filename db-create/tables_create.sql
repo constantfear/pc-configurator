@@ -1,16 +1,16 @@
 CREATE TABLE IF NOT EXISTS Memory_type (
     id serial PRIMARY KEY,
-    Type varchar(255) NOT NULL
+    Memory_type varchar(255) NOT NULL
 );
 
 CREATE TABLE IF NOT EXISTS Disk_type (
     id serial PRIMARY KEY,
-    Type varchar(255) NOT NULL
+    Disk_type varchar(255) NOT NULL
 );
 
 CREATE TABLE IF NOT EXISTS Power_unit_type (
     id serial PRIMARY KEY,
-    Type varchar(255) NOT NULL
+    Power_unit_type varchar(255) NOT NULL
 );
 
 CREATE TABLE IF NOT EXISTS Videomemory_type (
@@ -38,7 +38,7 @@ CREATE TABLE IF NOT EXISTS Disk (
     id serial PRIMARY KEY,
     img varchar(255) NOT NULL,
     Name varchar(255) NOT NULL,
-    Type int NOT NULL references Disk_type (id),
+    Disk_type int NOT NULL references Disk_type (id),
     Memory int NOT NULL,
     Price int NOT NULL
 );
@@ -47,7 +47,7 @@ CREATE TABLE IF NOT EXISTS RAM (
     id serial PRIMARY KEY,
     img varchar(255) NOT NULL,
     Name varchar(255) NOT NULL,
-    Type int NOT NULL references Memory_type (id),
+    Memory_type int NOT NULL references Memory_type (id),
     Memory int NOT NULL,
     Frequency int NOT NULL,
     Price int NOT NULL
@@ -57,7 +57,7 @@ CREATE TABLE IF NOT EXISTS Power_unit (
     id serial PRIMARY KEY,
     img varchar(255) NOT NULL,
     Name varchar(255) NOT NULL,
-    Type int NOT NULL references Power_unit_type (id),
+    Power_unit_type int NOT NULL references Power_unit_type (id),
     Power int NOT NULL,
     Price int NOT NULL
 ); 
@@ -107,7 +107,7 @@ CREATE TABLE IF NOT EXISTS Cooling_system (
     id serial PRIMARY KEY,
     img varchar(255) NOT NULL,
     Name varchar(255) NOT NULL,
-    Type varchar(255) NOT NULL,
+    Cooling_system_type varchar(255) NOT NULL,
     Max_TDP int NOT NULL,
     Price int NOT NULL
 );
